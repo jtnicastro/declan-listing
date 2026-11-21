@@ -52,6 +52,16 @@ ol.how li{margin:0 0 6px}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
 ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
+.start{border:2px solid var(--blue)}
+details.more{margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+details.more summary{font-weight:600;cursor:pointer;font-size:17px}
+details.more p{margin:8px 0 0}
+#help details.more{margin-top:8px}
+.row2{display:flex;gap:8px}.row2 button{margin-top:0;margin-bottom:6px}
+ol.how.big li{font-size:18px;margin-bottom:8px}
+.fbstep{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;font-size:18px}
+.fbstep .k{flex:none;width:30px;height:30px;border-radius:50%;background:var(--blue-bg);color:var(--blue);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px}
+.hero{width:64px;height:64px;object-fit:cover;border-radius:8px;vertical-align:middle;margin:4px 0}
 .fb{background:#fff;color:#050505;border-radius:12px;border:1px solid #dddfe2;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;margin-top:10px}
 @media (prefers-color-scheme: dark){.fb{background:#242526;color:#e4e6eb;border-color:#3e4042}.fb .fbm{color:#b0b3b8!important}}
 .fbh{display:flex;gap:10px;align-items:center;padding:12px 12px 4px}
@@ -79,56 +89,69 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 <body>
 <main>
 <p class="small">The Declan · Weehawken · Lease takeover</p>
-<h1>Post the apartment</h1>
-<p class="sub">Four steps, all on this page. Your progress saves automatically on this phone.</p>
+<h1>Post the apartment on Facebook</h1>
 
-<section class="card" id="times">
-  <h2><span class="num">★</span>Best time to post</h2>
-  <div class="today" id="today"></div>
-  <table class="heat" id="heat" aria-label="Best posting hours by day"></table>
-  <div class="legend"><span><i style="background:var(--h3)"></i>Best</span><span><i style="background:var(--h2)"></i>Good</span><span><i style="background:var(--h1)"></i>OK</span><span><i style="background:var(--line)"></i>Quiet</span></div>
-  <p class="small" style="margin-top:10px">Eastern time. Based on 2026 Facebook engagement studies from Buffer and Sprout Social. This is general Facebook data, not apartment groups specifically, so treat it as a guide.</p>
+<section class="card start">
+  <h2>👋 Start here</h2>
+  <p style="margin:0 0 10px">This page helps you post the apartment in a bunch of Facebook groups. It does the hard parts for you. Just do the numbered steps in order, top to bottom.</p>
+  <ul class="tips">
+    <li><b>Before you start:</b> make sure the <b>Facebook app</b> is on this phone and you're logged in.</li>
+    <li><b>You can't break anything.</b> If you get lost, close everything and open this link again. It remembers where you left off.</li>
+    <li>Stuck? Take a screenshot and text it to Tyler.</li>
+  </ul>
+  <p class="today" id="todayMini" style="margin:12px 0 0"></p>
 </section>
 
 <section class="card">
-  <h2><span class="num">1</span>Check the post</h2>
-  <p class="sub">Change the small boxes and the post updates itself. You can also type straight into the big box.</p>
-  <label for="rent">Rent per month</label>
-  <input type="text" id="rent" value="$4,258" inputmode="text">
-  <label for="movein">Move-in date</label>
-  <input type="text" id="movein" value="Dec 1">
-  <label for="offer">Special deal (leave empty if none)</label>
-  <input type="text" id="offer" placeholder="Example: First month FREE">
-  <label for="post">The post</label>
-  <textarea id="post"></textarea>
-  <p class="note" id="editednote" hidden>You typed in the big box, so the small boxes won't change it anymore. Tap "Start over" to rebuild it from the boxes.</p>
-  <button class="ghost" id="reset">Start over</button>
-  <h3 style="margin:22px 0 4px">Preview: how it looks on Facebook</h3>
-  <label for="pvg" style="margin-top:4px">Preview the version for</label>
+  <h2><span class="num">1</span>Save the photos</h2>
+  <p class="sub">Do this once. It puts all 15 apartment photos in your Photos app.</p>
+  <ol class="how big">
+    <li>Tap the blue button below.</li>
+    <li>Wait a few seconds. A menu slides up from the bottom of the screen.</li>
+    <li>Tap <b>Save 15 Images</b>. Done!</li>
+  </ol>
+  <button id="saveAll">Save all 15 photos</button>
+  <p class="note" id="saveNote" hidden></p>
+  <details class="more"><summary>The button didn't work</summary>
+    <p class="small">Tap this instead and wait for it to finish:</p>
+    <a class="btn ghost" id="zip" href="photos/declan-photos.zip">Download all photos as one file (46 MB)</a>
+    <p class="small">Or tap any photo below, then press and hold it and tap <b>Save to Photos</b>.</p>
+  </details>
+  <div class="photos" id="photos" style="margin-top:14px"></div>
+</section>
+
+<section class="card">
+  <h2><span class="num">2</span>Look at your post</h2>
+  <p class="sub">This is what your post will look like on Facebook. <b>You don't need to change anything.</b> Just look, then go to step 3.</p>
+  <label for="pvg" style="margin-top:4px">Showing the version for this group</label>
   <select id="pvg"></select>
   <div class="fb" id="fbprev"></div>
-  <p class="small" style="margin-top:8px">Facebook shows only the first few lines until someone taps "See more," so the title and first sentence do the most work. Tap "See more" to see the whole post.</p>
-</section>
-
-<section class="card">
-  <h2><span class="num">2</span>Save the photos</h2>
-  <p class="sub">One tap saves all 15 photos to your phone in full quality.</p>
-  <button id="saveAll">Save all 15 photos</button>
-  <a class="btn ghost" id="zip" href="photos/declan-photos.zip">Or download them as one file (46 MB)</a>
-  <p class="note" id="saveNote" hidden></p>
-  <div class="photos" id="photos" style="margin-top:14px"></div>
-  <p class="small" style="margin-top:8px">Tap any photo to open it full size. Add them to posts in this order: photo 1 is the one people see first.</p>
+  <p class="small" style="margin-top:8px">Facebook only shows the first two lines until someone taps "See more." Tap "See more" above to read the whole thing.</p>
+  <details class="more"><summary>I want to change something (only if Tyler asks)</summary>
+    <p class="small">Change a box and the post updates by itself.</p>
+    <label for="rent">Rent per month</label>
+    <input type="text" id="rent" value="$4,258" inputmode="text">
+    <label for="movein">Move-in date</label>
+    <input type="text" id="movein" value="Dec 1">
+    <label for="offer">Special deal (leave empty if none)</label>
+    <input type="text" id="offer" placeholder="Example: First month FREE">
+    <label for="post">The whole post (you can type in here too)</label>
+    <textarea id="post"></textarea>
+    <p class="note" id="editednote" hidden>You typed in the big box, so the small boxes won't change it anymore. Tap "Start over" to undo your typing.</p>
+    <button class="ghost" id="reset">Start over</button>
+  </details>
 </section>
 
 <section class="card">
   <h2><span class="num">3</span>Pick the groups</h2>
-  <p class="sub">All of them are checked. Uncheck any you don't want.</p>
+  <p class="sub">All the groups are already checked. <b>You don't need to change anything.</b> Uncheck a group only if you don't want to post there.</p>
+  <div class="row2"><button class="ghost" id="allOn">Select all</button><button class="ghost" id="allOff">Deselect all</button></div>
   <div class="glist" id="glist"></div>
 </section>
 
-<section class="card">
-  <h2><span class="num">4</span>Post, one group at a time</h2>
-  <p class="sub">The big button copies the post and opens the group. In Facebook you paste, add the photos, and tap Post.</p>
+<section class="card" id="postcard">
+  <h2><span class="num">4</span>Post in each group</h2>
+  <p class="sub">You'll go back and forth between this page and Facebook, one group at a time. Follow the steps in the blue box.</p>
   <div class="prog"><div id="bar"></div></div>
   <p class="small" id="progtext"></p>
   <div id="stepper"></div>
@@ -136,20 +159,40 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 
 <section class="card">
   <h2><span class="num">✓</span>My results</h2>
-  <p class="sub">Keep track of where you posted and how many people messaged you from each group.</p>
+  <p class="sub">This fills in by itself as you post. When people message you about the apartment, tap <b>+</b> next to the group they found it in.</p>
   <div class="stats"><div><b id="stPosted">0</b><span class="small">posted</span></div><div><b id="stPending">0</b><span class="small">waiting</span></div><div><b id="stMsgs">0</b><span class="small">messages</span></div></div>
   <div id="tracker"></div>
   <button id="share">Copy my progress to text Tyler</button>
+  <p class="small">Tap it, open your texts to Tyler, press and hold the typing box, and tap Paste.</p>
+</section>
+
+<section class="card" id="help">
+  <h2>🆘 If something goes wrong</h2>
+  <details class="more"><summary>Facebook asked me to log in</summary><p>Log in with your normal Facebook email and password. You only need to do this once.</p></details>
+  <details class="more"><summary>I tapped Paste but nothing showed up</summary><p>Come back to this page and tap <b>Open this group again</b>. That copies the post again. Then go back to Facebook and try Paste again.</p></details>
+  <details class="more"><summary>My phone asked "Allow Paste?"</summary><p>Tap <b>Allow Paste</b>. That's normal.</p></details>
+  <details class="more"><summary>I can't find "Write something…"</summary><p>You probably need to join the group first. Look for a blue <b>Join group</b> button near the top and tap it. If the group has to approve you, come back here and tap <b>Skip this group for now</b>.</p></details>
+  <details class="more"><summary>The group asked me questions to join</summary><p>Answer simply and honestly, for example: "I'm looking for someone to take over my apartment lease in Weehawken." Tap Submit, then come back here and tap <b>Skip this group for now</b>. Try that group again tomorrow.</p></details>
+  <details class="more"><summary>After posting it says "Pending" or "Waiting for approval"</summary><p>That's normal. Some groups check posts first. Come back here and tap the green button anyway.</p></details>
+  <details class="more"><summary>I closed everything and lost my place</summary><p>Just open the link Tyler sent you again. It remembers where you were.</p></details>
+  <details class="more"><summary>Something else</summary><p>Take a screenshot (press the side button and the volume-up button at the same time) and text it to Tyler.</p></details>
 </section>
 
 <section class="card">
   <h2>Good to know</h2>
   <ul class="tips">
-    <li>Don't put a phone number or email in the post. Let people message you.</li>
-    <li><b>Scam warning:</b> never take or send money before a tour, and never share a code that's texted to you.</li>
+    <li>Don't put a phone number or email in the post. Let people message you on Facebook.</li>
+    <li><b>Scam warning:</b> never take or send money before someone tours the apartment, and never share a code that's texted to you.</li>
     <li>Tours: weekdays after 4:30 PM, weekends 8 AM–6 PM.</li>
-    <li>"Pending" or "waiting for admin approval" after posting is normal in some groups.</li>
   </ul>
+</section>
+
+<section class="card" id="times">
+  <h2><span class="num">★</span>Best times to post</h2>
+  <div class="today" id="today"></div>
+  <table class="heat" id="heat" aria-label="Best posting hours by day"></table>
+  <div class="legend"><span><i style="background:var(--h3)"></i>Best</span><span><i style="background:var(--h2)"></i>Good</span><span><i style="background:var(--h1)"></i>OK</span><span><i style="background:var(--line)"></i>Quiet</span></div>
+  <p class="small" style="margin-top:10px">Eastern time. Based on 2026 Facebook engagement studies from Buffer and Sprout Social. This is general Facebook data, not apartment groups specifically, so treat it as a guide.</p>
 </section>
 </main>
 
@@ -191,6 +234,7 @@ function renderTimes(){
   let next=null;
   for(let k=0;k<8&&!next;k++){const d=(now.d+k)%7;for(const h of HOURS){if(k===0&&h<=now.h)continue;if(score(d,h)>=3){next={d,h,k};break}}}
   const when=next?(next.k===0?"today":next.k===1?"tomorrow":FULL[next.d])+" at "+fmt(next.h):"";
+  $("todayMini").innerHTML="⏰ <b>Best time to post today ("+FULL[now.d]+"): "+(best.length?rtxt(best):"no strong time today")+"</b>"+(next?"<br>Next best time: "+when:"")+"<br><span class='small'>Any time is fine though. Don't wait if now is when you can do it.</span>";
   $("today").innerHTML="<div class='small'>Today is "+FULL[now.d]+"</div><b>Best today: "+(best.length?rtxt(best):"none, it's a quiet day")+"</b>"+(good.length?"<div>Also good: "+rtxt(good)+"</div>":"")+(next?"<div style='margin-top:6px'>Next best time: <b style='font-size:inherit'>"+when+"</b></div>":"")+(now.d===6||now.d===0?"<div class='small' style='margin-top:6px'>Weekends are quieter on Facebook overall. Tuesday to Thursday are the strongest days.</div>":"");
   const order=[1,2,3,4,5,6,0];
   let html="<tr><th style='width:34px'></th>"+HOURS.map(h=>"<th>"+(h%3===0?(h%12||12)+(h<12?"a":"p"):"")+"</th>").join("")+"</tr>";
@@ -259,6 +303,8 @@ function renderList(){
   $("glist").innerHTML=GROUPS.map((g,i)=>'<label><input type="checkbox" data-i="'+i+'"'+(sel[i]?" checked":"")+'><span>'+g[0]+(done[i]?'<span class="tag">Posted</span>':'')+(g[2]?'<span class="gn">'+g[2]+'</span>':'')+'</span></label>').join("");
   document.querySelectorAll("#glist input").forEach(c=>c.addEventListener("change",()=>{sel[c.dataset.i]=c.checked;store("sel",sel);renderStep()}));
 }
+$("allOn").onclick=()=>{sel=GROUPS.map(()=>true);store("sel",sel);renderList();renderStep()};
+$("allOff").onclick=()=>{sel=GROUPS.map(()=>false);store("sel",sel);renderList();renderStep()};
 function queue(){return GROUPS.map((g,i)=>i).filter(i=>sel[i])}
 let opened=load("opened",null);
 function openGroup(i){
@@ -276,17 +322,26 @@ function renderStep(){
   const i=left.includes(cur)?cur:left[0];cur=i;store("cur",cur);const g=GROUPS[i];
   const nextI=left.filter(x=>x!==i)[0];
   const title=textFor(i).split("\n")[0];
-  const how='<ol class="how"><li>If you see <b>Join</b>, tap it. If it asks questions, answer them, then come back and tap "Skip for now."</li><li>Tap <b>Write something…</b>, press and hold, tap <b>Paste</b>.</li><li>Tap the <b>photo</b> button. The 15 photos you saved are the newest ones: tap them in order.</li><li>Tap <b>Post</b>, then come back to this page.</li></ol>';
+  const isAndroid=/Android/i.test(navigator.userAgent);
+  const back=isAndroid?'tap your phone\'s <b>Back</b> button (or swipe back) to return to this page':'tap the tiny <b>◀ Safari</b> in the <b>very top-left corner</b> of your screen to come back to this page';
+  const S=(k,t)=>'<div class="fbstep"><span class="k">'+k+'</span><div>'+t+'</div></div>';
+  const how='<p style="font-weight:700;margin:16px 0 8px">What to do in Facebook:</p>'+
+   S("A","Facebook opens on the group. If you see a blue <b>Join group</b> button, tap it. If it asks you questions or says your request is pending, come back here and tap <b>Skip this group for now</b>.")+
+   S("B","Tap the box that says <b>Write something…</b> (near the top, under the group's name).")+
+   S("C","Tap once in the empty white space. Then tap the same spot again. A little bubble pops up: tap <b>Paste</b>. (If your phone asks, tap <b>Allow Paste</b>.) The whole post appears. Don't type anything.")+
+   S("D","Tap the green <b>Photo</b> button (a little picture icon). Your newest photos show first. Tap this living room photo <b>first</b>: <img class=\"hero\" src=\"photos/thumb/declan-01.jpg\" alt=\"Living room photo\"> then tap all the other apartment photos. Tap <b>Done</b> or <b>Next</b> in the top-right corner.")+
+   S("E","Tap <b>Post</b> in the top-right corner. 🎉")+
+   S("F","Now "+back+", then tap the <b>green button</b> here.");
   const head='<div class="small">Group '+(n+1)+' of '+q.length+'</div><h3>'+g[0]+'</h3>'+(g[2]?'<p class="small" style="margin:0">'+g[2]+'</p>':'')+'<p class="small" style="margin:6px 0 0">Title for this group: "'+title.replace(/</g,"&lt;")+'"</p>';
   if(opened===i){
     $("stepper").innerHTML='<div class="step">'+head+
-    '<p style="margin:12px 0 0;font-weight:700">Did the post go up?</p>'+
-    (nextI!=null?'<button class="ok" id="yesnext">Yes! Open the next group</button>':'<button class="ok" id="yesnext">Yes, that was the last one</button>')+
-    '<button class="ghost" id="again1">Open this group again</button><button class="ghost" id="skip">Skip for now</button>'+how+'</div>';
+    '<p style="margin:12px 0 0;font-weight:700;font-size:20px">Welcome back! Did you post it in this group?</p>'+
+    (nextI!=null?'<button class="ok" id="yesnext">✅ Yes, I posted it! Open the next group</button>':'<button class="ok" id="yesnext">✅ Yes, I posted it! (last one)</button>')+
+    '<button class="ghost" id="again1">Open this group again</button><button class="ghost" id="skip">Skip this group for now</button>'+how+'</div>';
     $("yesnext").onclick=()=>{done[i]=new Date().toISOString();store("done",done);renderList();if(nextI!=null){openGroup(nextI)}else{opened=null;store("opened",null);renderStep()}};
     $("again1").onclick=()=>openGroup(i);
   }else{
-    $("stepper").innerHTML='<div class="step">'+head+'<button id="go">Copy post & open group</button>'+how+'<button class="ghost" id="skip">Skip for now</button></div>';
+    $("stepper").innerHTML='<div class="step">'+head+'<p style="margin:12px 0 0;font-weight:700;font-size:19px">Tap this big blue button. It copies your post and opens the group in Facebook.</p><button id="go">Copy post & open Facebook</button>'+how+'<button class="ghost" id="skip">Skip this group for now</button></div>';
     $("go").onclick=()=>openGroup(i);
   }
   $("skip").onclick=()=>{opened=null;store("opened",null);const k=left.indexOf(i);cur=left[(k+1)%left.length];store("cur",cur);renderStep()};
