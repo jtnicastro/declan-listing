@@ -6,13 +6,17 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1b66d2">
 <title>Post the Apartment</title>
-<link rel="apple-touch-icon" href="photos/thumb/declan-01.jpg">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Post Apt">
 <style>
 :root{--ink:#1f2328;--muted:#5b6270;--line:#e3e5e8;--bg:#f4f5f7;--card:#fff;--blue:#1b66d2;--blue-bg:#e8f0fc;--green:#1a7f45;--green-bg:#e3f4ea;--amber-bg:#fff4d9;--amber:#6f4b00;--h1:#c7dbf8;--h2:#7fb0f0;--h3:#1b66d2}
 @media (prefers-color-scheme: dark){:root{--ink:#eceef1;--muted:#a5acb8;--line:#30343a;--bg:#121417;--card:#1d2024;--blue:#6ea3f5;--blue-bg:#1b2a42;--green:#5ccf8c;--green-bg:#16301f;--amber-bg:#3a2e12;--amber:#f2c76a;--h1:#1f3554;--h2:#2f5d9c;--h3:#6ea3f5}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
-main{max-width:640px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 16px 60px}
+main{max-width:640px;margin:0 auto;padding:0 16px 60px}
+@media(min-width:640px){main{padding-top:16px}}
 h1{font-size:28px;line-height:1.2;margin:6px 0 6px}
 h2{font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
 .num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-size:18px;flex:none}
@@ -52,6 +56,16 @@ ol.how li{margin:0 0 6px}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
 ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
+.hero-banner{margin:0 -16px 16px;padding:0;min-height:230px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.65)),url(photos/banner.jpg) center/cover;display:flex;align-items:flex-end;color:#fff}
+@media(min-width:640px){.hero-banner{margin:0 0 16px;border-radius:18px;overflow:hidden}}
+.hero-banner>div{padding:18px}.hero-banner p{margin:0;font-size:15px;opacity:.95}.hero-banner h1{color:#fff;margin:4px 0 6px}
+.reply{border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 10px}
+.reply b{display:block;margin-bottom:4px}.reply p{margin:0 0 8px;font-size:16px;white-space:pre-wrap}
+.reply button{margin-top:0;font-size:16px;padding:10px}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}
+.confetti span{position:absolute;top:-30px;font-size:26px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+
 .start{border:2px solid var(--blue)}
 details.more{margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 details.more summary{font-weight:600;cursor:pointer;font-size:17px}
@@ -88,8 +102,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 </head>
 <body>
 <main>
-<p class="small">The Declan · Weehawken · Lease takeover</p>
-<h1>Post the apartment on Facebook</h1>
+<div class="hero-banner"><div><p>The Declan · Weehawken</p><h1>Post the apartment on Facebook</h1><p>Everything you need, step by step. About 2 minutes per group.</p></div></div>
 
 <section class="card start">
   <h2>👋 Start here</h2>
@@ -98,6 +111,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
     <li><b>Before you start:</b> make sure the <b>Facebook app</b> is on this phone and you're logged in.</li>
     <li><b>You can't break anything.</b> If you get lost, close everything and open this link again. It remembers where you left off.</li>
     <li>Stuck? Take a screenshot and text it to Tyler.</li>
+    <li><b>Optional:</b> make this page an app on your home screen. Tap the <b>Share</b> button (square with an arrow) at the bottom of Safari, scroll down, tap <b>Add to Home Screen</b>, then <b>Add</b>.</li>
   </ul>
   <p class="today" id="todayMini" style="margin:12px 0 0"></p>
 </section>
@@ -164,6 +178,13 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
   <div id="tracker"></div>
   <button id="share">Copy my progress to text Tyler</button>
   <p class="small">Tap it, open your texts to Tyler, press and hold the typing box, and tap Paste.</p>
+</section>
+
+<section class="card" id="replies">
+  <h2><span class="num">💬</span>Answering messages</h2>
+  <p class="sub">When someone messages you, find their question below, tap <b>Copy</b>, then paste it into your reply. Change anything in [brackets].</p>
+  <div id="replylist"></div>
+  <p class="note" style="margin-top:12px">🚩 If someone asks you to pay anything, send a code, or says they can't see it in person and will "send a deposit," don't reply. That's a scam.</p>
 </section>
 
 <section class="card" id="help">
@@ -395,6 +416,32 @@ $("share").addEventListener("click",async()=>{
   try{await navigator.clipboard.writeText(t);b.textContent="Copied! Paste it in a text to Tyler";b.classList.add("ok")}catch(e){b.textContent="Couldn't copy on this phone"}
   setTimeout(()=>{b.textContent="Copy my progress to text Tyler";b.classList.remove("ok")},4000);
 });
+
+/* ---------- reply templates ---------- */
+function vals(){return{rent:$("rent").value.trim()||"$4,258",mi:$("movein").value.trim()||"Dec 1",offer:$("offer").value.trim()}}
+function replies(){const v=vals();return [
+ ["Is it still available?","Hi! Yes, it's still available 😊 It's a 1-bedroom on the 7th floor at The Declan in Weehawken with a full skyline view. "+v.rent+"/month + utilities"+(v.offer?" ("+v.offer+")":"")+", move-in "+v.mi+", and the lease runs through July 14, 2027. Would you like to come see it? I can do weekdays after 4:30 PM or weekends 8 AM–6 PM."],
+ ["They want to see it (tour)","Great! Does [DAY] at [TIME] work for you? The address is 5 Port Imperial Blvd, Weehawken, NJ. Just message me when you get to the lobby and I'll come down to meet you."],
+ ["How does taking over the lease work?","It's pretty simple: you apply with the building (their normal application), and once they approve you, the lease switches over to you and you move in. There's no broker fee. The lease ends July 14, 2027, so it's about 7.5 months."],
+ ["Pets?","Yes, the building is pet-friendly! The building charges a small monthly pet fee."],
+ ["Parking?","There's garage parking in the building. It's a separate monthly fee that you'd set up with the leasing office."],
+ ["Utilities?","Utilities are separate. You set them up in your name and pay the companies directly."],
+ ["Furniture?","Some furniture can stay for free, and other pieces we can talk about. I'm happy to show you what's available when you come see it."],
+ ["Can I get a lower price?","Thanks for asking! Let me check and get back to you shortly."],
+ ["It's taken / no longer available","Thank you so much for reaching out! The apartment has been taken, but I really appreciate your interest. Good luck with your search!"]
+]}
+function renderReplies(){
+  $("replylist").innerHTML=replies().map((r,i)=>'<div class="reply"><b>'+esc(r[0])+'</b><p>'+esc(r[1])+'</p><button class="ghost" data-r="'+i+'">Copy</button></div>').join("");
+  document.querySelectorAll("#replylist button").forEach(b=>b.onclick=async()=>{const t=replies()[+b.dataset.r][1];try{await navigator.clipboard.writeText(t);b.textContent="Copied! Now paste it in your reply";b.classList.add("ok")}catch(e){b.textContent="Press and hold the text above to copy"}setTimeout(()=>{b.textContent="Copy";b.classList.remove("ok")},3500)});
+}
+["rent","movein","offer"].forEach(id=>$(id).addEventListener("input",renderReplies));
+renderReplies();
+
+/* ---------- celebration ---------- */
+function celebrate(big){const c=document.createElement("div");c.className="confetti";const e=["🎉","✨","🏙️","🎊","⭐"];
+  for(let k=0;k<(big?40:18);k++){const s=document.createElement("span");s.textContent=e[k%e.length];s.style.left=Math.random()*100+"vw";s.style.animationDelay=(Math.random()*0.6)+"s";c.appendChild(s)}
+  document.body.appendChild(c);setTimeout(()=>c.remove(),2600)}
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("#yesnext");if(b)celebrate(/last one/.test(b.textContent))},true);
 const _rs=renderStep;renderStep=function(){_rs();renderTracker();renderPreview()};
 renderStep();
 
