@@ -105,13 +105,11 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 <div class="hero-banner"><div><p>The Declan · Weehawken</p><h1>Post the apartment on Facebook</h1><p>Everything you need, step by step. About 2 minutes per group.</p></div></div>
 
 <section class="card start">
-  <h2>👋 Start here</h2>
-  <p style="margin:0 0 10px">This page helps you post the apartment in a bunch of Facebook groups. It does the hard parts for you. Just do the numbered steps in order, top to bottom.</p>
+  <h2>How it works</h2>
+  <p style="margin:0 0 10px">Everything for posting the apartment is here: the photos, the post, and a link to each group. Work through the steps below in order.</p>
   <ul class="tips">
-    <li><b>Before you start:</b> make sure the <b>Facebook app</b> is on this phone and you're logged in.</li>
-    <li><b>You can't break anything.</b> If you get lost, close everything and open this link again. It remembers where you left off.</li>
-    <li>Stuck? Take a screenshot and text it to Tyler.</li>
-    <li><b>Optional:</b> make this page an app on your home screen. Tap the <b>Share</b> button (square with an arrow) at the bottom of Safari, scroll down, tap <b>Add to Home Screen</b>, then <b>Add</b>.</li>
+    <li>Works best with the Facebook app installed and logged in on this phone.</li>
+    <li>Your progress saves automatically, so you can stop and come back anytime.</li>
   </ul>
   <p class="today" id="todayMini" style="margin:12px 0 0"></p>
 </section>
@@ -122,7 +120,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
   <ol class="how big">
     <li>Tap the blue button below.</li>
     <li>Wait a few seconds. A menu slides up from the bottom of the screen.</li>
-    <li>Tap <b>Save 15 Images</b>. Done!</li>
+    <li>Tap <b>Save 15 Images</b>.</li>
   </ol>
   <button id="saveAll">Save all 15 photos</button>
   <p class="note" id="saveNote" hidden></p>
@@ -136,12 +134,12 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 
 <section class="card">
   <h2><span class="num">2</span>Look at your post</h2>
-  <p class="sub">This is what your post will look like on Facebook. <b>You don't need to change anything.</b> Just look, then go to step 3.</p>
+  <p class="sub">This is how your post will look on Facebook. Edit it below if you want to change anything.</p>
   <label for="pvg" style="margin-top:4px">Showing the version for this group</label>
   <select id="pvg"></select>
   <div class="fb" id="fbprev"></div>
   <p class="small" style="margin-top:8px">Facebook only shows the first two lines until someone taps "See more." Tap "See more" above to read the whole thing.</p>
-  <details class="more"><summary>I want to change something (only if Tyler asks)</summary>
+  <details class="more"><summary>Edit the post</summary>
     <p class="small">Change a box and the post updates by itself.</p>
     <label for="rent">Rent per month</label>
     <input type="text" id="rent" value="$4,258" inputmode="text">
@@ -158,7 +156,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 
 <section class="card">
   <h2><span class="num">3</span>Pick the groups</h2>
-  <p class="sub">All the groups are already checked. <b>You don't need to change anything.</b> Uncheck a group only if you don't want to post there.</p>
+  <p class="sub">All groups are selected. Uncheck any you want to skip.</p>
   <div class="row2"><button class="ghost" id="allOn">Select all</button><button class="ghost" id="allOff">Deselect all</button></div>
   <div class="glist" id="glist"></div>
 </section>
@@ -176,8 +174,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
   <p class="sub">This fills in by itself as you post. When people message you about the apartment, tap <b>+</b> next to the group they found it in.</p>
   <div class="stats"><div><b id="stPosted">0</b><span class="small">posted</span></div><div><b id="stPending">0</b><span class="small">waiting</span></div><div><b id="stMsgs">0</b><span class="small">messages</span></div></div>
   <div id="tracker"></div>
-  <button id="share">Copy my progress to text Tyler</button>
-  <p class="small">Tap it, open your texts to Tyler, press and hold the typing box, and tap Paste.</p>
+  <button id="share">Copy results summary</button>
 </section>
 
 <section class="card" id="replies">
@@ -195,8 +192,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
   <details class="more"><summary>I can't find "Write something…"</summary><p>You probably need to join the group first. Look for a blue <b>Join group</b> button near the top and tap it. If the group has to approve you, come back here and tap <b>Skip this group for now</b>.</p></details>
   <details class="more"><summary>The group asked me questions to join</summary><p>Answer simply and honestly, for example: "I'm looking for someone to take over my apartment lease in Weehawken." Tap Submit, then come back here and tap <b>Skip this group for now</b>. Try that group again tomorrow.</p></details>
   <details class="more"><summary>After posting it says "Pending" or "Waiting for approval"</summary><p>That's normal. Some groups check posts first. Come back here and tap the green button anyway.</p></details>
-  <details class="more"><summary>I closed everything and lost my place</summary><p>Just open the link Tyler sent you again. It remembers where you were.</p></details>
-  <details class="more"><summary>Something else</summary><p>Take a screenshot (press the side button and the volume-up button at the same time) and text it to Tyler.</p></details>
+  <details class="more"><summary>I closed everything and lost my place</summary><p>Open this link again. It remembers where you were.</p></details>
 </section>
 
 <section class="card">
@@ -255,7 +251,7 @@ function renderTimes(){
   let next=null;
   for(let k=0;k<8&&!next;k++){const d=(now.d+k)%7;for(const h of HOURS){if(k===0&&h<=now.h)continue;if(score(d,h)>=3){next={d,h,k};break}}}
   const when=next?(next.k===0?"today":next.k===1?"tomorrow":FULL[next.d])+" at "+fmt(next.h):"";
-  $("todayMini").innerHTML="⏰ <b>Best time to post today ("+FULL[now.d]+"): "+(best.length?rtxt(best):"no strong time today")+"</b>"+(next?"<br>Next best time: "+when:"")+"<br><span class='small'>Any time is fine though. Don't wait if now is when you can do it.</span>";
+  $("todayMini").innerHTML="⏰ <b>Best time to post today ("+FULL[now.d]+"): "+(best.length?rtxt(best):"no strong time today")+"</b>"+(next?"<br>Next best time: "+when:"")+"<br><span class='small'>Any time works, though.</span>";
   $("today").innerHTML="<div class='small'>Today is "+FULL[now.d]+"</div><b>Best today: "+(best.length?rtxt(best):"none, it's a quiet day")+"</b>"+(good.length?"<div>Also good: "+rtxt(good)+"</div>":"")+(next?"<div style='margin-top:6px'>Next best time: <b style='font-size:inherit'>"+when+"</b></div>":"")+(now.d===6||now.d===0?"<div class='small' style='margin-top:6px'>Weekends are quieter on Facebook overall. Tuesday to Thursday are the strongest days.</div>":"");
   const order=[1,2,3,4,5,6,0];
   let html="<tr><th style='width:34px'></th>"+HOURS.map(h=>"<th>"+(h%3===0?(h%12||12)+(h<12?"a":"p"):"")+"</th>").join("")+"</tr>";
@@ -349,7 +345,7 @@ function renderStep(){
   const how='<p style="font-weight:700;margin:16px 0 8px">What to do in Facebook:</p>'+
    S("A","Facebook opens on the group. If you see a blue <b>Join group</b> button, tap it. If it asks you questions or says your request is pending, come back here and tap <b>Skip this group for now</b>.")+
    S("B","Tap the box that says <b>Write something…</b> (near the top, under the group's name).")+
-   S("C","Tap once in the empty white space. Then tap the same spot again. A little bubble pops up: tap <b>Paste</b>. (If your phone asks, tap <b>Allow Paste</b>.) The whole post appears. Don't type anything.")+
+   S("C","Tap once in the empty white space. Then tap the same spot again. A little bubble pops up: tap <b>Paste</b>. (If your phone asks, tap <b>Allow Paste</b>.) The whole post appears.")+
    S("D","Tap the green <b>Photo</b> button (a little picture icon). Your newest photos show first. Tap this living room photo <b>first</b>: <img class=\"hero\" src=\"photos/thumb/declan-01.jpg\" alt=\"Living room photo\"> then tap all the other apartment photos. Tap <b>Done</b> or <b>Next</b> in the top-right corner.")+
    S("E","Tap <b>Post</b> in the top-right corner. 🎉")+
    S("F","Now "+back+", then tap the <b>green button</b> here.");
@@ -362,7 +358,7 @@ function renderStep(){
     $("yesnext").onclick=()=>{done[i]=new Date().toISOString();store("done",done);renderList();if(nextI!=null){openGroup(nextI)}else{opened=null;store("opened",null);renderStep()}};
     $("again1").onclick=()=>openGroup(i);
   }else{
-    $("stepper").innerHTML='<div class="step">'+head+'<p style="margin:12px 0 0;font-weight:700;font-size:19px">Tap this big blue button. It copies your post and opens the group in Facebook.</p><button id="go">Copy post & open Facebook</button>'+how+'<button class="ghost" id="skip">Skip this group for now</button></div>';
+    $("stepper").innerHTML='<div class="step">'+head+'<p style="margin:12px 0 0;font-weight:700;font-size:19px">This copies your post and opens the group in Facebook.</p><button id="go">Copy post & open Facebook</button>'+how+'<button class="ghost" id="skip">Skip this group for now</button></div>';
     $("go").onclick=()=>openGroup(i);
   }
   $("skip").onclick=()=>{opened=null;store("opened",null);const k=left.indexOf(i);cur=left[(k+1)%left.length];store("cur",cur);renderStep()};
@@ -413,8 +409,8 @@ $("share").addEventListener("click",async()=>{
   q.forEach(i=>{lines.push("• "+GROUPS[i][0]+": "+LABEL[stat[i]||""]+((msgs[i]||0)?" ("+msgs[i]+" messages)":""))});
   lines.push("Total messages: "+q.reduce((a,i)=>a+(msgs[i]||0),0));
   const t=lines.join("\n");const b=$("share");
-  try{await navigator.clipboard.writeText(t);b.textContent="Copied! Paste it in a text to Tyler";b.classList.add("ok")}catch(e){b.textContent="Couldn't copy on this phone"}
-  setTimeout(()=>{b.textContent="Copy my progress to text Tyler";b.classList.remove("ok")},4000);
+  try{await navigator.clipboard.writeText(t);b.textContent="Copied!";b.classList.add("ok")}catch(e){b.textContent="Couldn't copy on this phone"}
+  setTimeout(()=>{b.textContent="Copy results summary";b.classList.remove("ok")},4000);
 });
 
 /* ---------- reply templates ---------- */
