@@ -301,8 +301,9 @@ function renderPreview(){
   sel_.innerHTML=q.map(i=>'<option value="'+i+'">'+esc(GROUPS[i][0])+'</option>').join("");
   if(q.length){sel_.value=q.includes(+keep)&&keep!==""?keep:String(q.includes(cur)?cur:q[0])}
   const gi=q.length?+sel_.value:0, text=textFor(gi), g=GROUPS[gi];
-  const lines=text.split("\n");let shown="",cut=false,count=0;
-  for(const l of lines){if(count>=5||shown.length+l.length>260){cut=true;break}shown+=(shown?"\n":"")+l;count+=Math.max(1,Math.ceil(l.length/42))}
+  let shown=text,cut=false,nl=0,lim=Math.min(text.length,240);
+  for(let k=0;k<text.length;k++){if(text[k]==="\n"&&++nl>=4){lim=Math.min(lim,k);break}}
+  if(text.length>lim){cut=true;shown=text.slice(0,lim);const sp=shown.lastIndexOf(" ");if(sp>lim-40)shown=shown.slice(0,sp);shown=shown.replace(/\s+$/,"")}
   const body=pvExpanded||!cut?esc(text):esc(shown)+'… <span class="more" id="seemore">See more</span>';
   const grid=[1,2,3,4,5].map((k,j)=>'<div class="'+(j<2?"t":"b")+'" style="background-image:url(photos/thumb/'+PH(k)+')">'+(k===5&&N>5?'<span class="plus">+'+(N-5)+'</span>':"")+'</div>').join("");
   $("fbprev").innerHTML='<div class="fbh"><div class="fba">You</div><div><div style="font-weight:600;font-size:15px">You <span class="fbm" style="color:#65676b;font-weight:400">▸ '+esc(g[0])+'</span></div><div class="fbm" style="font-size:13px;color:#65676b">Just now · 🌐</div></div></div><div class="fbt">'+body+'</div><div class="fbg">'+grid+'</div><div class="fbf"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div>';
