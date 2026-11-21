@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b66d2">
+<title>Post the Apartment</title>
+<link rel="apple-touch-icon" href="photos/thumb/declan-01.jpg">
+<style>
+:root{--ink:#1f2328;--muted:#5b6270;--line:#e3e5e8;--bg:#f4f5f7;--card:#fff;--blue:#1b66d2;--blue-bg:#e8f0fc;--green:#1a7f45;--green-bg:#e3f4ea;--amber-bg:#fff4d9;--amber:#6f4b00;--h1:#c7dbf8;--h2:#7fb0f0;--h3:#1b66d2}
+@media (prefers-color-scheme: dark){:root{--ink:#eceef1;--muted:#a5acb8;--line:#30343a;--bg:#121417;--card:#1d2024;--blue:#6ea3f5;--blue-bg:#1b2a42;--green:#5ccf8c;--green-bg:#16301f;--amber-bg:#3a2e12;--amber:#f2c76a;--h1:#1f3554;--h2:#2f5d9c;--h3:#6ea3f5}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+main{max-width:640px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 16px 60px}
+h1{font-size:28px;line-height:1.2;margin:6px 0 6px}
+h2{font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-size:18px;flex:none}
+.sub{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:0 0 18px}
+label{display:block;font-weight:600;margin:12px 0 4px;font-size:16px}
+input[type=text]{width:100%;font-size:18px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+textarea{width:100%;min-height:440px;font-size:16px;line-height:1.5;font-family:inherit;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+button,.btn{display:block;width:100%;font:inherit;font-size:20px;font-weight:700;padding:16px;border:0;border-radius:14px;background:var(--blue);color:#fff;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+button:active,.btn:active{transform:scale(.99)}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-size:17px;font-weight:600;padding:13px}
+.ok{background:var(--green)!important;color:#fff!important}
+.note{background:var(--amber-bg);color:var(--amber);border-radius:12px;padding:10px 12px;font-size:15px;margin:10px 0 0}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.photos a{position:relative;display:block}
+.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block;background:var(--line)}
+.photos span{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 7px}
+.small{font-size:14px;color:var(--muted)}
+.glist label{display:flex;gap:12px;align-items:flex-start;font-weight:500;font-size:17px;margin:0;padding:12px 4px;border-bottom:1px solid var(--line)}
+.glist label:last-child{border-bottom:0}
+.glist input{width:24px;height:24px;flex:none;margin-top:2px;accent-color:var(--blue)}
+.glist .gn{display:block;font-size:13px;color:var(--muted);font-weight:400}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:var(--green);background:var(--green-bg);border-radius:8px;padding:1px 7px;margin-left:6px}
+.step{border:2px solid var(--blue);border-radius:16px;padding:16px;margin-top:12px}
+.step h3{margin:0 0 4px;font-size:20px}
+.prog{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 12px}
+.prog div{height:100%;background:var(--green);width:0}
+ol.how{padding-left:22px;margin:8px 0 0}
+ol.how li{margin:0 0 6px}
+.today{background:var(--blue-bg);border-radius:14px;padding:14px;margin-bottom:12px}
+.today b{font-size:20px}
+.heat{width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;table-layout:fixed}
+.heat th{font-weight:600;color:var(--muted);padding:0}
+.heat td{height:26px;border-radius:4px;background:var(--line);text-align:center}
+.heat td.s1{background:var(--h1)}.heat td.s2{background:var(--h2)}.heat td.s3{background:var(--h3)}
+.heat tr.isToday th{color:var(--blue)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
+ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
+</style>
+</head>
+<body>
+<main>
+<p class="small">The Declan · Weehawken · Lease takeover</p>
+<h1>Post the apartment</h1>
+<p class="sub">Four steps, all on this page. Your progress saves automatically on this phone.</p>
+
+<section class="card" id="times">
+  <h2><span class="num">★</span>Best time to post</h2>
+  <div class="today" id="today"></div>
+  <table class="heat" id="heat" aria-label="Best posting hours by day"></table>
+  <div class="legend"><span><i style="background:var(--h3)"></i>Best</span><span><i style="background:var(--h2)"></i>Good</span><span><i style="background:var(--h1)"></i>OK</span><span><i style="background:var(--line)"></i>Quiet</span></div>
+  <p class="small" style="margin-top:10px">Eastern time. Based on 2026 Facebook engagement studies from Buffer and Sprout Social. This is general Facebook data, not apartment groups specifically, so treat it as a guide.</p>
+</section>
+
+<section class="card">
+  <h2><span class="num">1</span>Check the post</h2>
+  <p class="sub">Change the small boxes and the post updates itself. You can also type straight into the big box.</p>
+  <label for="rent">Rent per month</label>
+  <input type="text" id="rent" value="$4,258" inputmode="text">
+  <label for="movein">Move-in date</label>
+  <input type="text" id="movein" value="Dec 1">
+  <label for="offer">Special deal (leave empty if none)</label>
+  <input type="text" id="offer" placeholder="Example: First month FREE">
+  <label for="post">The post</label>
+  <textarea id="post"></textarea>
+  <p class="note" id="editednote" hidden>You typed in the big box, so the small boxes won't change it anymore. Tap "Start over" to rebuild it from the boxes.</p>
+  <button class="ghost" id="reset">Start over</button>
+</section>
+
+<section class="card">
+  <h2><span class="num">2</span>Save the photos</h2>
+  <p class="sub">One tap saves all 15 photos to your phone in full quality.</p>
+  <button id="saveAll">Save all 15 photos</button>
+  <a class="btn ghost" id="zip" href="photos/declan-photos.zip">Or download them as one file (46 MB)</a>
+  <p class="note" id="saveNote" hidden></p>
+  <div class="photos" id="photos" style="margin-top:14px"></div>
+  <p class="small" style="margin-top:8px">Tap any photo to open it full size. Add them to posts in this order: photo 1 is the one people see first.</p>
+</section>
+
+<section class="card">
+  <h2><span class="num">3</span>Pick the groups</h2>
+  <p class="sub">All of them are checked. Uncheck any you don't want.</p>
+  <div class="glist" id="glist"></div>
+</section>
+
+<section class="card">
+  <h2><span class="num">4</span>Post, one group at a time</h2>
+  <p class="sub">The big button copies the post and opens the group. In Facebook you paste, add the photos, and tap Post.</p>
+  <div class="prog"><div id="bar"></div></div>
+  <p class="small" id="progtext"></p>
+  <div id="stepper"></div>
+</section>
+
+<section class="card">
+  <h2>Good to know</h2>
+  <ul class="tips">
+    <li>Don't put a phone number or email in the post. Let people message you.</li>
+    <li><b>Scam warning:</b> never take or send money before a tour, and never share a code that's texted to you.</li>
+    <li>Tours: weekdays after 4:30 PM, weekends 8 AM–6 PM.</li>
+    <li>"Pending" or "waiting for admin approval" after posting is normal in some groups.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+const N=15, PH=i=>"declan-"+String(i).padStart(2,"0")+".jpg";
+const GROUPS=[
+ ["Hoboken/North Jersey Roommates: Rentals, Sublets & Lease-Takeovers","https://www.facebook.com/groups/2574863592810004/","Most important. Posts must include photos."],
+ ["Jersey City Rentals, Housing, Apartments","https://www.facebook.com/groups/1562542067811183/",""],
+ ["lease take over","https://www.facebook.com/groups/368966036634881/",""],
+ ["NYC Sublets & Apartments","https://www.facebook.com/groups/nycsublets/","Posts may wait for approval.","nyc"],
+ ["New York City Housing, Rooms, Apartments, Sublets","https://www.facebook.com/groups/nycroom/","No links or videos here.","nyc"],
+ ["Weehawken Apartment Rentals","https://www.facebook.com/groups/1053735462041107/",""],
+ ["Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","https://www.facebook.com/groups/2900593469996056/","Private: answer every join question."],
+ ["Hoboken, NJ Looking Apartment Housing, Room Rentals, Sublease","https://www.facebook.com/groups/1525958571486977/",""],
+ ["Jersey City Housing, Rooms, Apartments, Sublets & Roommates","https://www.facebook.com/groups/1714873958744644/",""],
+ ["NORTH NEW JERSEY APARTMENTS FOR RENT","https://www.facebook.com/groups/723535098886609/",""],
+ ["New Jersey Apartments for rent","https://www.facebook.com/groups/1242008440538800/",""],
+ ["Gypsy Housing & Apartments NYC","https://www.facebook.com/groups/296711348386206/","","nyc"],
+ ["NYC Rooms for Rent (roommates, rooms, apartments + sublets)","https://www.facebook.com/groups/I9150/","","nyc"],
+ ["People of Port Imperial","https://www.facebook.com/groups/204624969954677/","Private neighbors group: answer the join questions."]
+];
+const $=id=>document.getElementById(id);
+const store=(k,v)=>{try{localStorage.setItem("declan_"+k,JSON.stringify(v))}catch(e){}};
+const load=(k,d)=>{try{const v=localStorage.getItem("declan_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+
+/* ---------- best times ---------- */
+const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], FULL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const BUF={0:{p:10,h:[8,9,10]},1:{p:21,h:[19,21,22]},2:{p:8,h:[7,8,19]},3:{p:8,h:[8,9,18]},4:{p:9,h:[8,9,10]},5:{p:8,h:[6,7,8]},6:{p:22,h:[6,21,22]}};
+const SPR={0:[],1:[12],2:[12,13,14,15,16,17,18,19],3:[12,13,14,15,16,17,18,19],4:[12,13,20],5:[11,12,13],6:[]};
+const HOURS=[];for(let h=6;h<=23;h++)HOURS.push(h);
+function score(d,h){let s=0;if(BUF[d].p===h)s+=3;else if(BUF[d].h.includes(h))s+=2;if(SPR[d].includes(h))s+=1;return Math.min(s,3)}
+const fmt=h=>{const ap=h<12?"AM":"PM";const x=h%12||12;return x+" "+ap};
+function nyNow(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"short",hour:"numeric",hour12:false}).formatToParts(new Date());const wd=p.find(x=>x.type==="weekday").value;let hr=+p.find(x=>x.type==="hour").value;if(hr===24)hr=0;return{d:DAYS.indexOf(wd),h:hr}}
+function ranges(d,min){const out=[];let st=null;for(const h of HOURS){const ok=score(d,h)>=min;if(ok&&st===null)st=h;if(!ok&&st!==null){out.push([st,h]);st=null}}if(st!==null)out.push([st,24]);return out}
+function rtxt(r){return r.map(([a,b])=>b-a===1?fmt(a):fmt(a)+"–"+fmt(b===24?0:b).replace("12 AM","midnight")).join(", ")}
+function renderTimes(){
+  const now=nyNow();
+  const best=ranges(now.d,3), good=ranges(now.d,2);
+  let next=null;
+  for(let k=0;k<8&&!next;k++){const d=(now.d+k)%7;for(const h of HOURS){if(k===0&&h<=now.h)continue;if(score(d,h)>=3){next={d,h,k};break}}}
+  const when=next?(next.k===0?"today":next.k===1?"tomorrow":FULL[next.d])+" at "+fmt(next.h):"";
+  $("today").innerHTML="<div class='small'>Today is "+FULL[now.d]+"</div><b>Best today: "+(best.length?rtxt(best):"none, it's a quiet day")+"</b>"+(good.length?"<div>Also good: "+rtxt(good)+"</div>":"")+(next?"<div style='margin-top:6px'>Next best time: <b style='font-size:inherit'>"+when+"</b></div>":"")+(now.d===6||now.d===0?"<div class='small' style='margin-top:6px'>Weekends are quieter on Facebook overall. Tuesday to Thursday are the strongest days.</div>":"");
+  const order=[1,2,3,4,5,6,0];
+  let html="<tr><th style='width:34px'></th>"+HOURS.map(h=>"<th>"+(h%3===0?(h%12||12)+(h<12?"a":"p"):"")+"</th>").join("")+"</tr>";
+  for(const d of order){html+="<tr class='"+(d===now.d?"isToday":"")+"'><th style='text-align:left'>"+DAYS[d]+"</th>"+HOURS.map(h=>{const s=score(d,h);return "<td class='s"+s+"' title='"+FULL[d]+" "+fmt(h)+"'></td>"}).join("")+"</tr>"}
+  $("heat").innerHTML=html;
+}
+renderTimes();setInterval(renderTimes,10*60*1000);
+
+/* ---------- post ---------- */
+let edited=false;
+function titleFor(gi,rent,mi,offer){
+  const end=" | "+rent+"/mo | Move in "+mi+(offer?" | "+offer:"");
+  const NJ=["Take over my lease: 1BR with skyline views at The Declan (Weehawken)","Lease takeover: 7th-floor 1BR facing the Manhattan skyline at The Declan, Weehawken","Skyline-view 1BR at The Declan (Port Imperial), take over my lease"];
+  const NY=["10 min to Midtown by ferry: 1BR with skyline views, lease takeover at The Declan (Weehawken)","Ferry to Midtown + skyline views: 1BR lease takeover at The Declan, Weehawken"];
+  if(gi==null)return NJ[0]+end;
+  const kind=GROUPS[gi][3]==="nyc"?"nyc":"nj";
+  const same=GROUPS.map((g,i)=>i).filter(i=>(GROUPS[i][3]==="nyc"?"nyc":"nj")===kind);
+  const k=same.indexOf(gi), list=kind==="nyc"?NY:NJ;
+  return list[k%list.length]+end;
+}
+function build(gi){
+  const rent=$("rent").value.trim()||"$4,258", mi=$("movein").value.trim()||"Dec 1", offer=$("offer").value.trim();
+  return [titleFor(gi,rent,mi,offer),
+  "",
+  (offer?"🎁 "+offer+"\n\n":"")+"I'm looking for someone to take over my lease at The Declan, a 2024 luxury building on the Port Imperial waterfront. The apartment is on the 7th floor and the whole living room wall is windows facing the Midtown / Hudson Yards skyline. You can see it from bed too.",
+  "",
+  "📆 Move in "+mi+" (flexible). Lease runs to July 14, 2027 (only about 7.5 months)",
+  "💵 "+rent+"/month + utilities, no broker fee",
+  "✨ Washer/dryer in the apartment, walk-in closet, big kitchen island, gas stove, dishwasher",
+  "🛋️ Some furniture can stay for free",
+  "🏋️ Gym, pool, rooftop, courtyard, pet-friendly",
+  "⛴️ Ferry to Midtown right nearby, plus light rail and buses",
+  "✅ You just apply with the building and move in",
+  "",
+  "Tours weekdays after 4:30 PM or weekends 8 AM–6 PM. Message me with your move-in date!"].join("\n");
+}
+function refresh(){if(!edited)$("post").value=build();store("fields",{r:$("rent").value,m:$("movein").value,o:$("offer").value})}
+["rent","movein","offer"].forEach(id=>$(id).addEventListener("input",refresh));
+$("post").addEventListener("input",()=>{edited=true;$("editednote").hidden=false;store("post",$("post").value)});
+$("reset").addEventListener("click",()=>{edited=false;$("editednote").hidden=true;store("post",null);refresh()});
+const f=load("fields",null);if(f){$("rent").value=f.r;$("movein").value=f.m;$("offer").value=f.o}
+const sp=load("post",null);if(sp){edited=true;$("post").value=sp;$("editednote").hidden=false}else refresh();
+function textFor(gi){return edited?$("post").value:build(gi)}
+async function copyPost(gi){const t=textFor(gi);try{await navigator.clipboard.writeText(t);return true}catch(e){const ta=$("post");ta.focus();ta.select();try{return document.execCommand("copy")}catch(e2){return false}}}
+
+/* ---------- photos ---------- */
+$("photos").innerHTML=Array.from({length:N},(_,i)=>'<a href="photos/full/'+PH(i+1)+'" target="_blank" rel="noopener"><img src="photos/thumb/'+PH(i+1)+'" alt="Apartment photo '+(i+1)+'" loading="lazy"><span>'+(i+1)+'</span></a>').join("");
+$("saveAll").addEventListener("click",async()=>{
+  const b=$("saveAll"),n=$("saveNote");n.hidden=true;b.disabled=true;b.textContent="Getting photos ready…";
+  try{
+    const files=[];
+    for(let i=1;i<=N;i++){b.textContent="Getting photos ready… "+i+" of "+N;const r=await fetch("photos/full/"+PH(i));const bl=await r.blob();files.push(new File([bl],PH(i),{type:"image/jpeg"}))}
+    if(navigator.canShare&&navigator.canShare({files})){b.textContent="Tap \"Save "+N+" Images\"";await navigator.share({files});b.textContent="Saved ✓";b.classList.add("ok")}
+    else{n.textContent="This phone can't save them all at once. Use the download button below, or tap each photo and press and hold to save it.";n.hidden=false;b.textContent="Save all 15 photos"}
+  }catch(e){b.textContent="Save all 15 photos";if(e&&e.name!=="AbortError"){n.textContent="That didn't work. Try the download button below, or tap each photo and press and hold to save it.";n.hidden=false}}
+  b.disabled=false;
+});
+
+/* ---------- groups ---------- */
+let sel=load("sel",GROUPS.map(()=>true)), done=load("done",{}), cur=load("cur",0);
+function renderList(){
+  $("glist").innerHTML=GROUPS.map((g,i)=>'<label><input type="checkbox" data-i="'+i+'"'+(sel[i]?" checked":"")+'><span>'+g[0]+(done[i]?'<span class="tag">Posted</span>':'')+(g[2]?'<span class="gn">'+g[2]+'</span>':'')+'</span></label>').join("");
+  document.querySelectorAll("#glist input").forEach(c=>c.addEventListener("change",()=>{sel[c.dataset.i]=c.checked;store("sel",sel);renderStep()}));
+}
+function queue(){return GROUPS.map((g,i)=>i).filter(i=>sel[i])}
+let opened=load("opened",null);
+function openGroup(i){
+  const g=GROUPS[i];const p=copyPost(i);
+  opened=i;store("opened",i);cur=i;store("cur",i);
+  const w=window.open(g[1],"_blank");if(!w)location.href=g[1];
+  p.then(()=>renderStep());
+}
+function renderStep(){
+  const q=queue(), left=q.filter(i=>!done[i]), n=q.length-left.length;
+  $("bar").style.width=(q.length?100*n/q.length:0)+"%";
+  $("progtext").textContent=n+" of "+q.length+" groups posted";
+  if(!q.length){$("stepper").innerHTML="<p>Pick at least one group in step 3.</p>";return}
+  if(!left.length){$("stepper").innerHTML='<div class="step"><h3>All done 🎉</h3><p>Every group you picked has the post. Keep an eye on your Facebook messages.</p><button class="ghost" id="again">Start the list over</button></div>';$("again").onclick=()=>{done={};opened=null;store("opened",null);store("done",done);renderList();renderStep()};return}
+  const i=left.includes(cur)?cur:left[0];cur=i;store("cur",cur);const g=GROUPS[i];
+  const nextI=left.filter(x=>x!==i)[0];
+  const title=textFor(i).split("\n")[0];
+  const how='<ol class="how"><li>If you see <b>Join</b>, tap it. If it asks questions, answer them, then come back and tap "Skip for now."</li><li>Tap <b>Write something…</b>, press and hold, tap <b>Paste</b>.</li><li>Tap the <b>photo</b> button. The 15 photos you saved are the newest ones: tap them in order.</li><li>Tap <b>Post</b>, then come back to this page.</li></ol>';
+  const head='<div class="small">Group '+(n+1)+' of '+q.length+'</div><h3>'+g[0]+'</h3>'+(g[2]?'<p class="small" style="margin:0">'+g[2]+'</p>':'')+'<p class="small" style="margin:6px 0 0">Title for this group: "'+title.replace(/</g,"&lt;")+'"</p>';
+  if(opened===i){
+    $("stepper").innerHTML='<div class="step">'+head+
+    '<p style="margin:12px 0 0;font-weight:700">Did the post go up?</p>'+
+    (nextI!=null?'<button class="ok" id="yesnext">Yes! Open the next group</button>':'<button class="ok" id="yesnext">Yes, that was the last one</button>')+
+    '<button class="ghost" id="again1">Open this group again</button><button class="ghost" id="skip">Skip for now</button>'+how+'</div>';
+    $("yesnext").onclick=()=>{done[i]=new Date().toISOString();store("done",done);renderList();if(nextI!=null){openGroup(nextI)}else{opened=null;store("opened",null);renderStep()}};
+    $("again1").onclick=()=>openGroup(i);
+  }else{
+    $("stepper").innerHTML='<div class="step">'+head+'<button id="go">Copy post & open group</button>'+how+'<button class="ghost" id="skip">Skip for now</button></div>';
+    $("go").onclick=()=>openGroup(i);
+  }
+  $("skip").onclick=()=>{opened=null;store("opened",null);const k=left.indexOf(i);cur=left[(k+1)%left.length];store("cur",cur);renderStep()};
+}
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")renderStep()});
+renderList();renderStep();
+</script>
+</body>
+</html>
