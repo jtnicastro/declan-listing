@@ -52,6 +52,28 @@ ol.how li{margin:0 0 6px}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
 ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
+.fb{background:#fff;color:#050505;border-radius:12px;border:1px solid #dddfe2;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;margin-top:10px}
+@media (prefers-color-scheme: dark){.fb{background:#242526;color:#e4e6eb;border-color:#3e4042}.fb .fbm{color:#b0b3b8!important}}
+.fbh{display:flex;gap:10px;align-items:center;padding:12px 12px 4px}
+.fba{width:40px;height:40px;border-radius:50%;background:#1b66d2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.fbt{padding:4px 12px 10px;font-size:15px;line-height:1.34;white-space:pre-wrap;word-wrap:break-word}
+.fbt .more{font-weight:600;cursor:pointer}
+.fbg{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.fbg div{position:relative;background:#ccc center/cover no-repeat}
+.fbg .t{grid-column:span 3;aspect-ratio:1}.fbg .b{grid-column:span 2;aspect-ratio:1}
+.fbg .plus{position:absolute;inset:0;background:rgba(0,0,0,.45);color:#fff;font-size:30px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.fbf{display:flex;justify-content:space-around;padding:8px;border-top:1px solid rgba(128,128,128,.25);font-size:14px;font-weight:600;color:#65676b}
+select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+.trow{border-bottom:1px solid var(--line);padding:12px 0}.trow:last-child{border-bottom:0}
+.trow .tn{font-weight:600;font-size:16px}
+.tctl{display:flex;gap:8px;align-items:center;margin-top:8px}
+.tctl select{flex:1;font-size:15px;padding:8px}
+.cnt{display:flex;align-items:center;gap:6px;flex:none}
+.cnt button{width:40px;height:40px;padding:0;margin:0;font-size:22px;border-radius:10px}
+.cnt b{min-width:24px;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.stats div{background:var(--blue-bg);border-radius:12px;padding:10px;text-align:center}
+.stats b{display:block;font-size:24px}
 </style>
 </head>
 <body>
@@ -81,6 +103,11 @@ ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
   <textarea id="post"></textarea>
   <p class="note" id="editednote" hidden>You typed in the big box, so the small boxes won't change it anymore. Tap "Start over" to rebuild it from the boxes.</p>
   <button class="ghost" id="reset">Start over</button>
+  <h3 style="margin:22px 0 4px">Preview: how it looks on Facebook</h3>
+  <label for="pvg" style="margin-top:4px">Preview the version for</label>
+  <select id="pvg"></select>
+  <div class="fb" id="fbprev"></div>
+  <p class="small" style="margin-top:8px">Facebook shows only the first few lines until someone taps "See more," so the title and first sentence do the most work. Tap "See more" to see the whole post.</p>
 </section>
 
 <section class="card">
@@ -105,6 +132,14 @@ ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
   <div class="prog"><div id="bar"></div></div>
   <p class="small" id="progtext"></p>
   <div id="stepper"></div>
+</section>
+
+<section class="card">
+  <h2><span class="num">✓</span>My results</h2>
+  <p class="sub">Keep track of where you posted and how many people messaged you from each group.</p>
+  <div class="stats"><div><b id="stPosted">0</b><span class="small">posted</span></div><div><b id="stPending">0</b><span class="small">waiting</span></div><div><b id="stMsgs">0</b><span class="small">messages</span></div></div>
+  <div id="tracker"></div>
+  <button id="share">Copy my progress to text Tyler</button>
 </section>
 
 <section class="card">
@@ -180,17 +215,21 @@ function build(gi){
   const rent=$("rent").value.trim()||"$4,258", mi=$("movein").value.trim()||"Dec 1", offer=$("offer").value.trim();
   return [titleFor(gi,rent,mi,offer),
   "",
-  (offer?"🎁 "+offer+"\n\n":"")+"I'm looking for someone to take over my lease at The Declan, a 2024 luxury building on the Port Imperial waterfront. The apartment is on the 7th floor and the whole living room wall is windows facing the Midtown / Hudson Yards skyline. You can see it from bed too.",
+  (offer?"🎁 "+offer+"\n\n":"")+"I'm looking for someone to take over my lease at The Declan, a luxury waterfront building in Port Imperial that opened in 2025. My apartment is on the 7th floor, and the whole living room wall is floor-to-ceiling windows looking right at the Midtown and Hudson Yards skyline. You can see it from bed too.",
   "",
-  "📆 Move in "+mi+" (flexible). Lease runs to July 14, 2027 (only about 7.5 months)",
+  "Only about 7.5 months left on the lease (it ends July 14, 2027), so it's a great fit if you don't want a full 12-month commitment.",
+  "",
+  "📆 Move in "+mi+" (flexible)",
   "💵 "+rent+"/month + utilities, no broker fee",
-  "✨ Washer/dryer in the apartment, walk-in closet, big kitchen island, gas stove, dishwasher",
+  "🏠 692 sq ft, 9-ft ceilings, washer/dryer in the apartment, walk-in closet with built-in shelving",
+  "🍳 Big quartz island with seating, gas stove, dishwasher, stainless appliances",
   "🛋️ Some furniture can stay for free",
-  "🏋️ Gym, pool, rooftop, courtyard, pet-friendly",
-  "⛴️ Ferry to Midtown right nearby, plus light rail and buses",
-  "✅ You just apply with the building and move in",
+  "🏊 Pool and hot tub with Manhattan views, gym, rooftop, courtyard with grills, pet-friendly",
+  "🚗 Garage parking in the building (separate monthly fee)",
+  "⛴️ Ferry to Midtown nearby, plus light rail and buses to Port Authority",
+  "✅ Easy process: apply with the building, get approved, move in",
   "",
-  "Tours weekdays after 4:30 PM or weekends 8 AM–6 PM. Message me with your move-in date!"].join("\n");
+  "Tours weekdays after 4:30 PM or weekends 8 AM–6 PM. Message me with your move-in date and a little about yourself!"].join("\n");
 }
 function refresh(){if(!edited)$("post").value=build();store("fields",{r:$("rent").value,m:$("movein").value,o:$("offer").value})}
 ["rent","movein","offer"].forEach(id=>$(id).addEventListener("input",refresh));
@@ -254,6 +293,55 @@ function renderStep(){
 }
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")renderStep()});
 renderList();renderStep();
+/* ---------- preview ---------- */
+function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+let pvExpanded=false;
+function renderPreview(){
+  const sel_=$("pvg");const q=queue();const keep=sel_.value;
+  sel_.innerHTML=q.map(i=>'<option value="'+i+'">'+esc(GROUPS[i][0])+'</option>').join("");
+  if(q.length){sel_.value=q.includes(+keep)&&keep!==""?keep:String(q.includes(cur)?cur:q[0])}
+  const gi=q.length?+sel_.value:0, text=textFor(gi), g=GROUPS[gi];
+  const lines=text.split("\n");let shown="",cut=false,count=0;
+  for(const l of lines){if(count>=5||shown.length+l.length>260){cut=true;break}shown+=(shown?"\n":"")+l;count+=Math.max(1,Math.ceil(l.length/42))}
+  const body=pvExpanded||!cut?esc(text):esc(shown)+'… <span class="more" id="seemore">See more</span>';
+  const grid=[1,2,3,4,5].map((k,j)=>'<div class="'+(j<2?"t":"b")+'" style="background-image:url(photos/thumb/'+PH(k)+')">'+(k===5&&N>5?'<span class="plus">+'+(N-5)+'</span>':"")+'</div>').join("");
+  $("fbprev").innerHTML='<div class="fbh"><div class="fba">You</div><div><div style="font-weight:600;font-size:15px">You <span class="fbm" style="color:#65676b;font-weight:400">▸ '+esc(g[0])+'</span></div><div class="fbm" style="font-size:13px;color:#65676b">Just now · 🌐</div></div></div><div class="fbt">'+body+'</div><div class="fbg">'+grid+'</div><div class="fbf"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div>';
+  const sm=$("seemore");if(sm)sm.onclick=()=>{pvExpanded=true;renderPreview()};
+}
+$("pvg").addEventListener("change",()=>{pvExpanded=false;renderPreview()});
+["rent","movein","offer","post"].forEach(id=>$(id).addEventListener("input",()=>renderPreview()));
+$("reset").addEventListener("click",()=>renderPreview());
+
+/* ---------- results tracker ---------- */
+let stat=load("stat",{}), msgs=load("msgs",{});
+const LABEL={"":"Not posted yet",posted:"Posted",pending:"Waiting for approval",removed:"Removed by group",skipped:"Skipped"};
+function syncFromDone(){for(const k in done){if(done[k]&&!stat[k])stat[k]="posted"}store("stat",stat)}
+function renderTracker(){
+  syncFromDone();
+  const q=queue();
+  $("tracker").innerHTML=q.map(i=>{const d=done[i]?new Date(done[i]):null;return '<div class="trow"><div class="tn">'+esc(GROUPS[i][0])+'</div>'+(d?'<div class="small">Posted '+d.toLocaleString("en-US",{weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})+'</div>':'')+
+  '<div class="tctl"><select data-i="'+i+'">'+Object.keys(LABEL).map(k=>'<option value="'+k+'"'+((stat[i]||"")===k?" selected":"")+'>'+LABEL[k]+'</option>').join("")+'</select>'+
+  '<div class="cnt"><button class="ghost" data-m="-1" data-i="'+i+'" aria-label="One fewer message">−</button><b>'+(msgs[i]||0)+'</b><button class="ghost" data-m="1" data-i="'+i+'" aria-label="One more message">+</button></div></div></div>'}).join("");
+  const vals=q.map(i=>stat[i]||"");
+  $("stPosted").textContent=vals.filter(v=>v==="posted").length;
+  $("stPending").textContent=vals.filter(v=>v==="pending").length;
+  $("stMsgs").textContent=q.reduce((a,i)=>a+(msgs[i]||0),0);
+  document.querySelectorAll("#tracker select").forEach(el=>el.onchange=()=>{const i=el.dataset.i;stat[i]=el.value;
+    if(el.value==="posted"||el.value==="pending"){if(!done[i])done[i]=new Date().toISOString()}else if(el.value===""){delete done[i]}
+    store("stat",stat);store("done",done);renderList();renderStep();renderTracker()});
+  document.querySelectorAll("#tracker .cnt button").forEach(b=>b.onclick=()=>{const i=b.dataset.i;msgs[i]=Math.max(0,(msgs[i]||0)+(+b.dataset.m));store("msgs",msgs);renderTracker()});
+}
+$("share").addEventListener("click",async()=>{
+  const q=queue();const lines=["Apartment post update:"];
+  q.forEach(i=>{lines.push("• "+GROUPS[i][0]+": "+LABEL[stat[i]||""]+((msgs[i]||0)?" ("+msgs[i]+" messages)":""))});
+  lines.push("Total messages: "+q.reduce((a,i)=>a+(msgs[i]||0),0));
+  const t=lines.join("\n");const b=$("share");
+  try{await navigator.clipboard.writeText(t);b.textContent="Copied! Paste it in a text to Tyler";b.classList.add("ok")}catch(e){b.textContent="Couldn't copy on this phone"}
+  setTimeout(()=>{b.textContent="Copy my progress to text Tyler";b.classList.remove("ok")},4000);
+});
+const _rs=renderStep;renderStep=function(){_rs();renderTracker();renderPreview()};
+renderStep();
+
 </script>
 </body>
 </html>
