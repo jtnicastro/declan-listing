@@ -39,6 +39,8 @@ button:active,.btn:active{transform:scale(.99)}
 .glist label:last-child{border-bottom:0}
 .glist input{width:24px;height:24px;flex:none;margin-top:2px;accent-color:var(--blue)}
 .glist .gn{display:block;font-size:13px;color:var(--muted);font-weight:400}
+.glist .gn.warn{color:#c0392b;font-weight:600}
+@media (prefers-color-scheme: dark){.glist .gn.warn{color:#ff8a7a}}
 .tag{display:inline-block;font-size:12px;font-weight:700;color:var(--green);background:var(--green-bg);border-radius:8px;padding:1px 7px;margin-left:6px}
 .step{border:2px solid var(--blue);border-radius:16px;padding:16px;margin-top:12px}
 .step h3{margin:0 0 4px;font-size:20px}
@@ -233,6 +235,7 @@ const GROUPS=[
  ["NYC Rooms for Rent (roommates, rooms, apartments + sublets)","https://www.facebook.com/groups/I9150/","","nyc"],
  ["People of Port Imperial","https://www.facebook.com/groups/204624969954677/","Private neighbors group: answer the join questions."]
 ];
+const WARN={2:"⚠️ This group removed Tyler's post. Skipped by default.",4:"⚠️ Tyler was removed from this group after posting. Skipped by default.",8:"⚠️ Only approves posts that include a Cirtru listing link. Skipped by default."};
 const $=id=>document.getElementById(id);
 const store=(k,v)=>{try{localStorage.setItem("declan_"+k,JSON.stringify(v))}catch(e){}};
 const load=(k,d)=>{try{const v=localStorage.getItem("declan_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
@@ -317,12 +320,13 @@ $("saveAll").addEventListener("click",async()=>{
 });
 
 /* ---------- groups ---------- */
-let sel=load("sel",GROUPS.map(()=>true)), done=load("done",{}), cur=load("cur",0);
+let sel=load("sel",GROUPS.map((g,i)=>!WARN[i])), done=load("done",{}), cur=load("cur",0);
+if(!load("warnv1",false)){for(const k in WARN)sel[k]=false;store("sel",sel);store("warnv1",true)}
 function renderList(){
-  $("glist").innerHTML=GROUPS.map((g,i)=>'<label><input type="checkbox" data-i="'+i+'"'+(sel[i]?" checked":"")+'><span>'+g[0]+(done[i]?'<span class="tag">Posted</span>':'')+(g[2]?'<span class="gn">'+g[2]+'</span>':'')+'</span></label>').join("");
+  $("glist").innerHTML=GROUPS.map((g,i)=>'<label><input type="checkbox" data-i="'+i+'"'+(sel[i]?" checked":"")+'><span>'+g[0]+(done[i]?'<span class="tag">Posted</span>':'')+(WARN[i]?'<span class="gn warn">'+WARN[i]+'</span>':'')+(g[2]?'<span class="gn">'+g[2]+'</span>':'')+'</span></label>').join("");
   document.querySelectorAll("#glist input").forEach(c=>c.addEventListener("change",()=>{sel[c.dataset.i]=c.checked;store("sel",sel);renderStep()}));
 }
-$("allOn").onclick=()=>{sel=GROUPS.map(()=>true);store("sel",sel);renderList();renderStep()};
+$("allOn").onclick=()=>{sel=GROUPS.map((g,i)=>!WARN[i]);store("sel",sel);renderList();renderStep()};
 $("allOff").onclick=()=>{sel=GROUPS.map(()=>false);store("sel",sel);renderList();renderStep()};
 function queue(){return GROUPS.map((g,i)=>i).filter(i=>sel[i])}
 let opened=load("opened",null);
