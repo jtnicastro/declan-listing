@@ -239,7 +239,7 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 <script>
 const N=15, PH=i=>"declan-"+String(i).padStart(2,"0")+".jpg";
 // HAS_EDIT[k]=true when photos/full has an edited version and photos/orig has the original (photo k+1)
-const HAS_EDIT=Array(N).fill(false);
+const HAS_EDIT=[true,true,true,true,true,true,true,true,true,true,true,true,true,true,false];
 let pick=(()=>{try{const v=JSON.parse(localStorage.getItem("declan_pick"));return Array.isArray(v)&&v.length===N?v:Array(N).fill("e")}catch(e){return Array(N).fill("e")}})();
 const useOrig=i=>HAS_EDIT[i-1]&&pick[i-1]==="o";
 const FULLSRC=i=>(useOrig(i)?"photos/orig/":"photos/full/")+PH(i);
