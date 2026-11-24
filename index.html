@@ -33,6 +33,12 @@ button:active,.btn:active{transform:scale(.99)}
 .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .photos a{position:relative;display:block}
 .photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block;background:var(--line)}
+.photos .ph{display:flex;flex-direction:column;gap:5px;min-width:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{flex:1;margin:0;padding:7px 0;font-size:13px;font-weight:600;border-radius:0;background:var(--card);color:var(--muted)}
+.seg button.on{background:var(--blue);color:#fff}
+.update{border:2px solid #e3a008;background:var(--amber-bg)}
+.update h2{color:var(--amber)}
 .photos span{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 7px}
 .small{font-size:14px;color:var(--muted)}
 .glist label{display:flex;gap:12px;align-items:flex-start;font-weight:500;font-size:17px;margin:0;padding:12px 4px;border-bottom:1px solid var(--line)}
@@ -106,6 +112,15 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 <main>
 <div class="hero-banner"><div><p>The Declan · Weehawken</p><h1>Post the apartment on Facebook</h1><p>Everything you need, step by step. About 2 minutes per group.</p></div></div>
 
+<section class="card update" id="whatsnew">
+  <h2>🆕 What's new (Nov 23)</h2>
+  <ul class="tips">
+    <li><b>New price:</b> we'll pay December's rent if someone takes over by Dec 1, which brings it to about <b>$3,687/month</b>. The post below already says this.</li>
+    <li>Already posted the old price ($4,258) in a group? Open that post on Facebook, tap <b>⋯</b> → <b>Edit post</b>, and replace the text with the new post from step 2.</li>
+    <li id="newphotos" hidden><b>New photos</b> with nicer lighting are in step 1. You can switch any of them back to the original.</li>
+  </ul>
+</section>
+
 <section class="card start">
   <h2>How it works</h2>
   <p style="margin:0 0 10px">Everything for posting the apartment is here: the photos, the post, and a link to each group. Work through the steps below in order.</p>
@@ -129,9 +144,11 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
   <p class="note" id="saveNote" hidden></p>
   <details class="more"><summary>The button didn't work</summary>
     <p class="small">Tap this instead and wait for it to finish:</p>
-    <a class="btn ghost" id="zip" href="photos/declan-photos.zip">Download all photos as one file (46 MB)</a>
+    <button class="ghost" id="zip">Download all photos as one file</button>
     <p class="small">Or tap any photo below, then press and hold it and tap <b>Save to Photos</b>.</p>
   </details>
+  <p class="small" id="pickHelp" hidden style="margin:14px 0 0">These photos have nicer lighting and sky. Nothing in the apartment or the view was changed. Prefer the original of any photo? Tap <b>Original</b> under it. Whatever you pick here is what gets saved.</p>
+  <button class="ghost" id="pickAll" hidden style="margin-top:8px"></button>
   <div class="photos" id="photos" style="margin-top:14px"></div>
 </section>
 
@@ -221,6 +238,12 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
 
 <script>
 const N=15, PH=i=>"declan-"+String(i).padStart(2,"0")+".jpg";
+// HAS_EDIT[k]=true when photos/full has an edited version and photos/orig has the original (photo k+1)
+const HAS_EDIT=Array(N).fill(false);
+let pick=(()=>{try{const v=JSON.parse(localStorage.getItem("declan_pick"));return Array.isArray(v)&&v.length===N?v:Array(N).fill("e")}catch(e){return Array(N).fill("e")}})();
+const useOrig=i=>HAS_EDIT[i-1]&&pick[i-1]==="o";
+const FULLSRC=i=>(useOrig(i)?"photos/orig/":"photos/full/")+PH(i);
+const THUMBSRC=i=>(useOrig(i)?"photos/thumb-orig/":"photos/thumb/")+PH(i);
 const GROUPS=[
  ["Hoboken/North Jersey Roommates: Rentals, Sublets & Lease-Takeovers","https://www.facebook.com/groups/2574863592810004/","Most important. Posts must include photos."],
  ["Jersey City Rentals, Housing, Apartments","https://www.facebook.com/groups/1562542067811183/",""],
@@ -269,7 +292,6 @@ renderTimes();setInterval(renderTimes,10*60*1000);
 
 /* ---------- post ---------- */
 let edited=false;
-const EDITED_PHOTOS=false; // flip to true when the edited photo set is in photos/
 function dealTag(offer){return offer?offer.split(/\s+(?:if|when|for)\s+|\s*\(/i)[0].trim():""}
 function titleFor(gi,rent,mi,offer,net){
   const tag=dealTag(offer);
@@ -301,7 +323,6 @@ function build(gi){
   "⛴️ Ferry to Midtown nearby, plus light rail and buses to Port Authority",
   "✅ Easy process: apply with the building, get approved, move in",
   "",
-  ...(EDITED_PHOTOS?["📸 Photos have enhanced lighting and sky, but the view is exactly what you see from the windows.",""]:[]),
   "Tours weekdays after 4:30 PM or weekends 8 AM–6 PM. Message me with your move-in date and a little about yourself!"].join("\n");
 }
 function refresh(){if(!edited)$("post").value=build();store("fields",{r:$("rent").value,n:$("net").value,m:$("movein").value,o:$("offer").value})}
@@ -315,15 +336,56 @@ function textFor(gi){return edited?$("post").value:build(gi)}
 async function copyPost(gi){const t=textFor(gi);try{await navigator.clipboard.writeText(t);return true}catch(e){const ta=$("post");ta.focus();ta.select();try{return document.execCommand("copy")}catch(e2){return false}}}
 
 /* ---------- photos ---------- */
-$("photos").innerHTML=Array.from({length:N},(_,i)=>'<a href="photos/full/'+PH(i+1)+'" target="_blank" rel="noopener"><img src="photos/thumb/'+PH(i+1)+'" alt="Apartment photo '+(i+1)+'" loading="lazy"><span>'+(i+1)+'</span></a>').join("");
+function allOrig(){return HAS_EDIT.every((h,k)=>!h||pick[k]==="o")}
+function setPick(next){pick=next;try{localStorage.setItem("declan_pick",JSON.stringify(pick))}catch(e){}renderPhotos();if(typeof renderPreview==="function")renderPreview();if(typeof renderStep==="function")renderStep();const b=$("saveAll");b.textContent="Save all 15 photos";b.classList.remove("ok")}
+function renderPhotos(){
+  const any=HAS_EDIT.some(Boolean);
+  $("pickHelp").hidden=!any;$("pickAll").hidden=!any;$("newphotos").hidden=!any;
+  $("pickAll").textContent=allOrig()?"Use all the edited photos":"Use all the original photos instead";
+  $("photos").innerHTML=Array.from({length:N},(_,k)=>{const i=k+1;
+    return '<div class="ph"><a href="'+FULLSRC(i)+'" target="_blank" rel="noopener"><img src="'+THUMBSRC(i)+'" alt="Apartment photo '+i+'" loading="lazy"><span>'+i+(useOrig(i)?' · original':'')+'</span></a>'+
+    (HAS_EDIT[k]?'<div class="seg"><button data-k="'+k+'" data-v="e" class="'+(pick[k]!=="o"?"on":"")+'">Edited</button><button data-k="'+k+'" data-v="o" class="'+(pick[k]==="o"?"on":"")+'">Original</button></div>':'')+'</div>'}).join("");
+  document.querySelectorAll("#photos .seg button").forEach(b=>b.onclick=()=>{const n=pick.slice();n[+b.dataset.k]=b.dataset.v;setPick(n)});
+}
+$("pickAll").addEventListener("click",()=>{const v=allOrig()?"e":"o";setPick(pick.map(()=>v))});
+renderPhotos();
 $("saveAll").addEventListener("click",async()=>{
   const b=$("saveAll"),n=$("saveNote");n.hidden=true;b.disabled=true;b.textContent="Getting photos ready…";
   try{
     const files=[];
-    for(let i=1;i<=N;i++){b.textContent="Getting photos ready… "+i+" of "+N;const r=await fetch("photos/full/"+PH(i));const bl=await r.blob();files.push(new File([bl],PH(i),{type:"image/jpeg"}))}
+    for(let i=1;i<=N;i++){b.textContent="Getting photos ready… "+i+" of "+N;const r=await fetch(FULLSRC(i));const bl=await r.blob();files.push(new File([bl],PH(i),{type:"image/jpeg"}))}
     if(navigator.canShare&&navigator.canShare({files})){b.textContent="Tap \"Save "+N+" Images\"";await navigator.share({files});b.textContent="Saved ✓";b.classList.add("ok")}
     else{n.textContent="This phone can't save them all at once. Use the download button below, or tap each photo and press and hold to save it.";n.hidden=false;b.textContent="Save all 15 photos"}
   }catch(e){b.textContent="Save all 15 photos";if(e&&e.name!=="AbortError"){n.textContent="That didn't work. Try the download button below, or tap each photo and press and hold to save it.";n.hidden=false}}
+  b.disabled=false;
+});
+
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(u){let c=0xFFFFFFFF;for(let i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0}
+function makeZip(files){
+  const parts=[],cen=[],enc=new TextEncoder();let off=0;
+  for(const f of files){
+    const nm=enc.encode(f.name),crc=crc32(f.data),sz=f.data.length;
+    const h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(12,0x21,true);h.setUint32(14,crc,true);h.setUint32(18,sz,true);h.setUint32(22,sz,true);h.setUint16(26,nm.length,true);
+    parts.push(h,nm,f.data);
+    const c=new DataView(new ArrayBuffer(46));
+    c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(14,0x21,true);c.setUint32(16,crc,true);c.setUint32(20,sz,true);c.setUint32(24,sz,true);c.setUint16(28,nm.length,true);c.setUint32(42,off,true);
+    cen.push(c,nm);off+=30+nm.length+sz;
+  }
+  let cs=0;cen.forEach(x=>cs+=x.byteLength);
+  const e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+  return new Blob([...parts,...cen,e],{type:"application/zip"});
+}
+$("zip").addEventListener("click",async()=>{
+  const b=$("zip");b.disabled=true;
+  try{
+    const files=[];
+    for(let i=1;i<=N;i++){b.textContent="Getting photos ready… "+i+" of "+N;const r=await fetch(FULLSRC(i));files.push({name:PH(i),data:new Uint8Array(await r.arrayBuffer())})}
+    const url=URL.createObjectURL(makeZip(files));const a=document.createElement("a");a.href=url;a.download="declan-photos.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+    b.textContent="Downloaded ✓";b.classList.add("ok");
+  }catch(e){b.textContent="That didn't work. Tap each photo instead."}
   b.disabled=false;
 });
 
@@ -361,7 +423,7 @@ function renderStep(){
    S("A","Facebook opens on the group. If you see a blue <b>Join group</b> button, tap it. If it asks you questions or says your request is pending, come back here and tap <b>Skip this group for now</b>.")+
    S("B","Tap the box that says <b>Write something…</b> (near the top, under the group's name).")+
    S("C","Tap once in the empty white space. Then tap the same spot again. A little bubble pops up: tap <b>Paste</b>. (If your phone asks, tap <b>Allow Paste</b>.) The whole post appears.")+
-   S("D","Tap the green <b>Photo</b> button (a little picture icon). Your newest photos show first. Tap this living room photo <b>first</b>: <img class=\"hero\" src=\"photos/thumb/declan-01.jpg\" alt=\"Living room photo\"> then tap all the other apartment photos. Tap <b>Done</b> or <b>Next</b> in the top-right corner.")+
+   S("D","Tap the green <b>Photo</b> button (a little picture icon). Your newest photos show first. Tap this living room photo <b>first</b>: <img class=\"hero\" src=\""+THUMBSRC(1)+"\" alt=\"Living room photo\"> then tap all the other apartment photos. Tap <b>Done</b> or <b>Next</b> in the top-right corner.")+
    S("E","Tap <b>Post</b> in the top-right corner. 🎉")+
    S("F","Now "+back+", then tap the <b>green button</b> here.");
   const head='<div class="small">Group '+(n+1)+' of '+q.length+'</div><h3>'+g[0]+'</h3>'+(g[2]?'<p class="small" style="margin:0">'+g[2]+'</p>':'')+'<p class="small" style="margin:6px 0 0">Title for this group: "'+title.replace(/</g,"&lt;")+'"</p>';
@@ -392,12 +454,12 @@ function renderPreview(){
   for(let k=0;k<text.length;k++){if(text[k]==="\n"&&++nl>=4){lim=Math.min(lim,k);break}}
   if(text.length>lim){cut=true;shown=text.slice(0,lim);const sp=shown.lastIndexOf(" ");if(sp>lim-40)shown=shown.slice(0,sp);shown=shown.replace(/\s+$/,"")}
   const body=pvExpanded||!cut?esc(text):esc(shown)+'… <span class="more" id="seemore">See more</span>';
-  const grid=[1,2,3,4,5].map((k,j)=>'<div class="'+(j<2?"t":"b")+'" style="background-image:url(photos/thumb/'+PH(k)+')">'+(k===5&&N>5?'<span class="plus">+'+(N-5)+'</span>':"")+'</div>').join("");
+  const grid=[1,2,3,4,5].map((k,j)=>'<div class="'+(j<2?"t":"b")+'" style="background-image:url('+THUMBSRC(k)+')">'+(k===5&&N>5?'<span class="plus">+'+(N-5)+'</span>':"")+'</div>').join("");
   $("fbprev").innerHTML='<div class="fbh"><div class="fba">You</div><div><div style="font-weight:600;font-size:15px">You <span class="fbm" style="color:#65676b;font-weight:400">▸ '+esc(g[0])+'</span></div><div class="fbm" style="font-size:13px;color:#65676b">Just now · 🌐</div></div></div><div class="fbt">'+body+'</div><div class="fbg">'+grid+'</div><div class="fbf"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div>';
   const sm=$("seemore");if(sm)sm.onclick=()=>{pvExpanded=true;renderPreview()};
 }
 $("pvg").addEventListener("change",()=>{pvExpanded=false;renderPreview()});
-["rent","movein","offer","post"].forEach(id=>$(id).addEventListener("input",()=>renderPreview()));
+["rent","net","movein","offer","post"].forEach(id=>$(id).addEventListener("input",()=>renderPreview()));
 $("reset").addEventListener("click",()=>renderPreview());
 
 /* ---------- results tracker ---------- */
