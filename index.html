@@ -144,12 +144,14 @@ select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);borde
   <p class="small" style="margin-top:8px">Facebook only shows the first two lines until someone taps "See more." Tap "See more" above to read the whole thing.</p>
   <details class="more"><summary>Edit the post</summary>
     <p class="small">Change a box and the post updates by itself.</p>
-    <label for="rent">Rent per month</label>
+    <label for="rent">Rent per month on the lease</label>
     <input type="text" id="rent" value="$4,258" inputmode="text">
+    <label for="net">Monthly rent with the deal (leave empty if no deal)</label>
+    <input type="text" id="net" value="$3,687" inputmode="text">
     <label for="movein">Move-in date</label>
     <input type="text" id="movein" value="Dec 1">
     <label for="offer">Special deal (leave empty if none)</label>
-    <input type="text" id="offer" placeholder="Example: First month FREE">
+    <input type="text" id="offer" value="December rent FREE if you take over by Dec 1" placeholder="Example: First month FREE">
     <label for="post">The whole post (you can type in here too)</label>
     <textarea id="post"></textarea>
     <p class="note" id="editednote" hidden>You typed in the big box, so the small boxes won't change it anymore. Tap "Start over" to undo your typing.</p>
@@ -235,7 +237,7 @@ const GROUPS=[
  ["NYC Rooms for Rent (roommates, rooms, apartments + sublets)","https://www.facebook.com/groups/I9150/","","nyc"],
  ["People of Port Imperial","https://www.facebook.com/groups/204624969954677/","Private neighbors group: answer the join questions."]
 ];
-const WARN={2:"⚠️ This group removed Tyler's post. Skipped by default.",4:"⚠️ Tyler was removed from this group after posting. Skipped by default.",8:"⚠️ Only approves posts that include a Cirtru listing link. Skipped by default."};
+const WARN={2:"⚠️ This group removed Tyler's post. Skipped by default.",3:"⚠️ This group makes you pay to join. Skipped by default.",4:"⚠️ Tyler was removed from this group after posting. Skipped by default.",8:"⚠️ Only approves posts that include a Cirtru listing link. Skipped by default."};
 const $=id=>document.getElementById(id);
 const store=(k,v)=>{try{localStorage.setItem("declan_"+k,JSON.stringify(v))}catch(e){}};
 const load=(k,d)=>{try{const v=localStorage.getItem("declan_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
@@ -267,26 +269,30 @@ renderTimes();setInterval(renderTimes,10*60*1000);
 
 /* ---------- post ---------- */
 let edited=false;
-function titleFor(gi,rent,mi,offer){
-  const end=" | "+rent+"/mo | Move in "+mi+(offer?" | "+offer:"");
+const EDITED_PHOTOS=false; // flip to true when the edited photo set is in photos/
+function dealTag(offer){return offer?offer.split(/\s+(?:if|when|for)\s+|\s*\(/i)[0].trim():""}
+function titleFor(gi,rent,mi,offer,net){
+  const tag=dealTag(offer);
+  const end=" | "+(net?"Net "+net+"/mo":rent+"/mo")+" | Move in "+mi;
+  const pre=tag?tag+" | ":"";
   const NJ=["Take over my lease: 1BR with skyline views at The Declan (Weehawken)","Lease takeover: 7th-floor 1BR facing the Manhattan skyline at The Declan, Weehawken","Skyline-view 1BR at The Declan (Port Imperial), take over my lease"];
   const NY=["10 min to Midtown by ferry: 1BR with skyline views, lease takeover at The Declan (Weehawken)","Ferry to Midtown + skyline views: 1BR lease takeover at The Declan, Weehawken"];
-  if(gi==null)return NJ[0]+end;
+  if(gi==null)return pre+NJ[0]+end;
   const kind=GROUPS[gi][3]==="nyc"?"nyc":"nj";
   const same=GROUPS.map((g,i)=>i).filter(i=>(GROUPS[i][3]==="nyc"?"nyc":"nj")===kind);
   const k=same.indexOf(gi), list=kind==="nyc"?NY:NJ;
-  return list[k%list.length]+end;
+  return pre+list[k%list.length]+end;
 }
 function build(gi){
-  const rent=$("rent").value.trim()||"$4,258", mi=$("movein").value.trim()||"Dec 1", offer=$("offer").value.trim();
-  return [titleFor(gi,rent,mi,offer),
+  const rent=$("rent").value.trim()||"$4,258", mi=$("movein").value.trim()||"Dec 1", offer=$("offer").value.trim(), net=$("net").value.trim();
+  return [titleFor(gi,rent,mi,offer,net),
   "",
-  (offer?"🎁 "+offer+"\n\n":"")+"I'm looking for someone to take over my lease at The Declan, a luxury waterfront building in Port Imperial that opened in 2025. My apartment is on the 7th floor, and the whole living room wall is floor-to-ceiling windows looking right at the Midtown and Hudson Yards skyline. You can see it from bed too.",
+  (offer?"🎁 "+offer+(net?". That brings it down to about "+net+"/month for the rest of the lease.":"")+"\n\n":"")+"I'm looking for someone to take over my lease at The Declan, a luxury waterfront building in Port Imperial that opened in 2025. My apartment is on the 7th floor, and the whole living room wall is floor-to-ceiling windows looking right at the Midtown and Hudson Yards skyline. You can see it from bed too.",
   "",
   "Only about 7.5 months left on the lease (it ends July 14, 2027), so it's a great fit if you don't want a full 12-month commitment.",
   "",
   "📆 Move in "+mi+" (flexible)",
-  "💵 "+rent+"/month + utilities, no broker fee",
+  "💵 "+(net?net+"/month with the deal ("+rent+"/month on the lease)":rent+"/month")+" + utilities, no broker fee",
   "🏠 692 sq ft, 9-ft ceilings, washer/dryer in the apartment, walk-in closet with built-in shelving",
   "🍳 Big quartz island with seating, gas stove, dishwasher, stainless appliances",
   "🛋️ Some furniture can stay for free",
@@ -295,13 +301,15 @@ function build(gi){
   "⛴️ Ferry to Midtown nearby, plus light rail and buses to Port Authority",
   "✅ Easy process: apply with the building, get approved, move in",
   "",
+  ...(EDITED_PHOTOS?["📸 Photos have enhanced lighting and sky, but the view is exactly what you see from the windows.",""]:[]),
   "Tours weekdays after 4:30 PM or weekends 8 AM–6 PM. Message me with your move-in date and a little about yourself!"].join("\n");
 }
-function refresh(){if(!edited)$("post").value=build();store("fields",{r:$("rent").value,m:$("movein").value,o:$("offer").value})}
-["rent","movein","offer"].forEach(id=>$(id).addEventListener("input",refresh));
+function refresh(){if(!edited)$("post").value=build();store("fields",{r:$("rent").value,n:$("net").value,m:$("movein").value,o:$("offer").value})}
+["rent","net","movein","offer"].forEach(id=>$(id).addEventListener("input",refresh));
+if(!load("dealv1",false)){store("fields",null);store("post",null);store("dealv1",true)}
 $("post").addEventListener("input",()=>{edited=true;$("editednote").hidden=false;store("post",$("post").value)});
 $("reset").addEventListener("click",()=>{edited=false;$("editednote").hidden=true;store("post",null);refresh()});
-const f=load("fields",null);if(f){$("rent").value=f.r;$("movein").value=f.m;$("offer").value=f.o}
+const f=load("fields",null);if(f){$("rent").value=f.r;if(f.n!=null)$("net").value=f.n;$("movein").value=f.m;$("offer").value=f.o}
 const sp=load("post",null);if(sp){edited=true;$("post").value=sp;$("editednote").hidden=false}else refresh();
 function textFor(gi){return edited?$("post").value:build(gi)}
 async function copyPost(gi){const t=textFor(gi);try{await navigator.clipboard.writeText(t);return true}catch(e){const ta=$("post");ta.focus();ta.select();try{return document.execCommand("copy")}catch(e2){return false}}}
@@ -322,6 +330,7 @@ $("saveAll").addEventListener("click",async()=>{
 /* ---------- groups ---------- */
 let sel=load("sel",GROUPS.map((g,i)=>!WARN[i])), done=load("done",{}), cur=load("cur",0);
 if(!load("warnv1",false)){for(const k in WARN)sel[k]=false;store("sel",sel);store("warnv1",true)}
+if(!load("warnv2",false)){sel[3]=false;store("sel",sel);store("warnv2",true)}
 function renderList(){
   $("glist").innerHTML=GROUPS.map((g,i)=>'<label><input type="checkbox" data-i="'+i+'"'+(sel[i]?" checked":"")+'><span>'+g[0]+(done[i]?'<span class="tag">Posted</span>':'')+(WARN[i]?'<span class="gn warn">'+WARN[i]+'</span>':'')+(g[2]?'<span class="gn">'+g[2]+'</span>':'')+'</span></label>').join("");
   document.querySelectorAll("#glist input").forEach(c=>c.addEventListener("change",()=>{sel[c.dataset.i]=c.checked;store("sel",sel);renderStep()}));
@@ -420,23 +429,23 @@ $("share").addEventListener("click",async()=>{
 });
 
 /* ---------- reply templates ---------- */
-function vals(){return{rent:$("rent").value.trim()||"$4,258",mi:$("movein").value.trim()||"Dec 1",offer:$("offer").value.trim()}}
+function vals(){return{rent:$("rent").value.trim()||"$4,258",net:$("net").value.trim(),mi:$("movein").value.trim()||"Dec 1",offer:$("offer").value.trim()}}
 function replies(){const v=vals();return [
- ["Is it still available?","Hi! Yes, it's still available 😊 It's a 1-bedroom on the 7th floor at The Declan in Weehawken with a full skyline view. "+v.rent+"/month + utilities"+(v.offer?" ("+v.offer+")":"")+", move-in "+v.mi+", and the lease runs through July 14, 2027. Would you like to come see it? I can do weekdays after 4:30 PM or weekends 8 AM–6 PM."],
+ ["Is it still available?","Hi! Yes, it's still available 😊 It's a 1-bedroom on the 7th floor at The Declan in Weehawken with a full skyline view. "+v.rent+"/month + utilities"+(v.offer?" ("+v.offer+(v.net?", which works out to about "+v.net+"/month":"")+")":"")+", move-in "+v.mi+", and the lease runs through July 14, 2027. Would you like to come see it? I can do weekdays after 4:30 PM or weekends 8 AM–6 PM."],
  ["They want to see it (tour)","Great! Does [DAY] at [TIME] work for you? The address is 5 Port Imperial Blvd, Weehawken, NJ. Just message me when you get to the lobby and I'll come down to meet you."],
  ["How does taking over the lease work?","It's pretty simple: you apply with the building (their normal application), and once they approve you, the lease switches over to you and you move in. There's no broker fee. The lease ends July 14, 2027, so it's about 7.5 months."],
  ["Pets?","Yes, the building is pet-friendly! The building charges a small monthly pet fee."],
  ["Parking?","There's garage parking in the building. It's a separate monthly fee that you'd set up with the leasing office."],
  ["Utilities?","Utilities are separate. You set them up in your name and pay the companies directly."],
  ["Furniture?","Some furniture can stay for free, and other pieces we can talk about. I'm happy to show you what's available when you come see it."],
- ["Can I get a lower price?","Thanks for asking! Let me check and get back to you shortly."],
+ ["Can I get a lower price?",(v.offer?"Thanks for asking! We're already including a deal ("+v.offer+(v.net?", about "+v.net+"/month overall":"")+"). ":"Thanks for asking! ")+"Let me check and get back to you shortly."],
  ["It's taken / no longer available","Thank you so much for reaching out! The apartment has been taken, but I really appreciate your interest. Good luck with your search!"]
 ]}
 function renderReplies(){
   $("replylist").innerHTML=replies().map((r,i)=>'<div class="reply"><b>'+esc(r[0])+'</b><p>'+esc(r[1])+'</p><button class="ghost" data-r="'+i+'">Copy</button></div>').join("");
   document.querySelectorAll("#replylist button").forEach(b=>b.onclick=async()=>{const t=replies()[+b.dataset.r][1];try{await navigator.clipboard.writeText(t);b.textContent="Copied! Now paste it in your reply";b.classList.add("ok")}catch(e){b.textContent="Press and hold the text above to copy"}setTimeout(()=>{b.textContent="Copy";b.classList.remove("ok")},3500)});
 }
-["rent","movein","offer"].forEach(id=>$(id).addEventListener("input",renderReplies));
+["rent","net","movein","offer"].forEach(id=>$(id).addEventListener("input",renderReplies));
 renderReplies();
 
 /* ---------- celebration ---------- */
