@@ -64,7 +64,7 @@ ol.how li{margin:0 0 6px}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
 ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
-.hero-banner{margin:0 -16px 16px;padding:0;min-height:230px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.65)),url(photos/banner.jpg) center 12%/cover;display:flex;align-items:flex-end;color:#fff}
+.hero-banner{margin:0 -16px 16px;padding:0;min-height:230px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.65)),url(photos/banner.jpg?v=20261123b) center 12%/cover;display:flex;align-items:flex-end;color:#fff}
 @media(min-width:640px){.hero-banner{margin:0 0 16px;border-radius:18px;overflow:hidden}}
 .hero-banner>div{padding:18px}.hero-banner p{margin:0;font-size:15px;opacity:.95}.hero-banner h1{color:#fff;margin:4px 0 6px}
 .reply{border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 10px}
@@ -242,8 +242,9 @@ const N=15, PH=i=>"declan-"+String(i).padStart(2,"0")+".jpg";
 const HAS_EDIT=[true,true,true,true,true,true,true,true,true,true,true,true,true,true,false];
 let pick=(()=>{try{const v=JSON.parse(localStorage.getItem("declan_pick"));return Array.isArray(v)&&v.length===N?v:Array(N).fill("e")}catch(e){return Array(N).fill("e")}})();
 const useOrig=i=>HAS_EDIT[i-1]&&pick[i-1]==="o";
-const FULLSRC=i=>(useOrig(i)?"photos/orig/":"photos/full/")+PH(i);
-const THUMBSRC=i=>(useOrig(i)?"photos/thumb-orig/":"photos/thumb/")+PH(i);
+const PV="?v=20261123b"; // bump when photos change so phones don't show cached copies
+const FULLSRC=i=>(useOrig(i)?"photos/orig/":"photos/full/")+PH(i)+PV;
+const THUMBSRC=i=>(useOrig(i)?"photos/thumb-orig/":"photos/thumb/")+PH(i)+PV;
 const GROUPS=[
  ["Hoboken/North Jersey Roommates: Rentals, Sublets & Lease-Takeovers","https://www.facebook.com/groups/2574863592810004/","Most important. Posts must include photos."],
  ["Jersey City Rentals, Housing, Apartments","https://www.facebook.com/groups/1562542067811183/",""],
