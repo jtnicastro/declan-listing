@@ -168,6 +168,8 @@ details ul{margin:8px 0 0;padding-left:20px;font-size:15px;color:var(--muted)}
 <section class="card">
 <h2><span class="num">4</span>Comment on Tyler's live posts</h2>
 <p class="sub">A new comment pushes a post back up in the group. One comment per post at each time below is plenty. Never just write "bump", and don't pretend to be someone interested.</p>
+<div class="slot" style="border:2px solid var(--blue)"><b>The comment (same every time)</b><i>"This is my brother's apartment! The skyline view is even better in person."</i><div class="row"><button id="copyComment">Copy comment</button></div></div>
+<p style="margin:12px 0 4px;font-weight:700">When to comment</p>
 <div id="slots"></div>
 <div id="livePosts"></div>
 </section>
@@ -223,10 +225,10 @@ const LIVE=[
  {name:"Gypsy Housing & Apartments NYC",url:"https://www.facebook.com/groups/296711348386206/posts/2172859940771328/"}
 ];
 const SLOTS=[
- {s:"2026-11-28T12:00:00-05:00",e:"2026-11-28T14:00:00-05:00",label:"Sat Nov 28 · around 12–1 PM",text:"This is my brother's apartment! The skyline view is even better in person 🌆 December is free if someone takes over by Dec 1."},
- {s:"2026-11-28T20:00:00-05:00",e:"2026-11-28T22:00:00-05:00",label:"Sat Nov 28 · around 8–9 PM",text:"Still available! Tag anyone you know who's moving to NYC or NJ. The ferry gets you to Midtown in about 10 minutes."},
- {s:"2026-11-29T10:00:00-05:00",e:"2026-11-29T12:00:00-05:00",label:"Sun Nov 29 · around 10–11 AM",text:"Reminder: take over by Tuesday (Dec 1) and December rent is free 🎁 My brother can do a FaceTime tour anytime."},
- {s:"2026-11-30T19:00:00-05:00",e:"2026-11-30T21:00:00-05:00",label:"Mon Nov 30 · around 7–8 PM (last push)",text:"Last chance for free December: the takeover has to start by tomorrow, Dec 1!"}
+ {s:"2026-11-28T12:00:00-05:00",e:"2026-11-28T14:00:00-05:00",label:"Sat Nov 28 · around 12–1 PM",text:"This is my brother's apartment! The skyline view is even better in person."},
+ {s:"2026-11-28T20:00:00-05:00",e:"2026-11-28T22:00:00-05:00",label:"Sat Nov 28 · around 8–9 PM",text:"This is my brother's apartment! The skyline view is even better in person."},
+ {s:"2026-11-29T10:00:00-05:00",e:"2026-11-29T12:00:00-05:00",label:"Sun Nov 29 · around 10–11 AM",text:"This is my brother's apartment! The skyline view is even better in person."},
+ {s:"2026-11-30T19:00:00-05:00",e:"2026-11-30T21:00:00-05:00",label:"Mon Nov 30 · around 7–8 PM (last push)",text:"This is my brother's apartment! The skyline view is even better in person."}
 ];
 const SKIP=["Weehawken Apartment Rentals","Hoboken/North Jersey Roommates","Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","Hoboken, NJ Looking Apartment Housing…","NORTH NEW JERSEY APARTMENTS FOR RENT","New Jersey Apartments for rent","Jersey City Rentals, Housing, Apartments ✅","NYC Rooms for Rent","Gypsy Housing & Apartments NYC","People of Port Imperial (Tyler will post there himself)"];
 
@@ -281,8 +283,7 @@ function renderSlots(){const now=new Date();let nextSet=false;
   $("slots").innerHTML=SLOTS.map((s,i)=>{const st=new Date(s.s),en=new Date(s.e);let cls="",tag="";
     if(now>=en){cls="past";tag=" (passed)"}else if(now>=st){cls="now";tag=" ← now"}else if(!nextSet){cls="now";tag=" ← next";nextSet=true}
     if(now>=st&&now<en)nextSet=true;
-    return '<div class="slot '+cls+'"><b>'+s.label+tag+'</b>Suggested comment: <i>"'+s.text+'"</i><div class="row"><button data-ctext="'+i+'" class="ghost">Copy this comment</button></div></div>'}).join("");
-  document.querySelectorAll("[data-ctext]").forEach(b=>b.addEventListener("click",()=>copy(SLOTS[b.dataset.ctext].text,b,"Copy this comment")));
+    return '<div class="slot '+cls+'"><b>'+s.label+tag+'</b></div>'}).join("");
 }
 function renderLive(){
   $("livePosts").innerHTML='<p style="margin:14px 0 4px;font-weight:700">Tyler\'s live posts</p>'+LIVE.map((p,i)=>{
@@ -290,6 +291,7 @@ function renderLive(){
     return '<div class="lp"><b>'+p.name+'</b><a class="btn" href="'+p.url+'" target="_blank" rel="noopener" style="font-size:16px;padding:12px">Open post to comment</a><details style="margin-top:8px"><summary>Commented at&hellip;</summary>'+ticks+'</details></div>'}).join("");
   document.querySelectorAll("[data-c]").forEach(c=>c.addEventListener("change",()=>{cdone[c.dataset.c]=c.checked;store("cdone",cdone)}));
 }
+$("copyComment").addEventListener("click",e=>copy(SLOTS[0].text,e.target,"Copy comment"));
 renderSlots();renderLive();setInterval(renderSlots,60000);
 $("skipList").innerHTML=SKIP.map(s=>"<li>"+s+"</li>").join("");
 </script>
