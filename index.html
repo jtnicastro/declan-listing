@@ -248,23 +248,29 @@ const THUMBSRC=i=>(useOrig(i)?"photos/thumb-orig/":"photos/thumb/")+PH(i)+PV;
 const GROUPS=[
  ["Hoboken/North Jersey Roommates: Rentals, Sublets & Lease-Takeovers","https://www.facebook.com/groups/2574863592810004/","Most important. Posts must include photos."],
  ["Jersey City Rentals, Housing, Apartments","https://www.facebook.com/groups/1562542067811183/",""],
- ["lease take over","https://www.facebook.com/groups/368966036634881/",""],
- ["NYC Sublets & Apartments","https://www.facebook.com/groups/nycsublets/","Posts may wait for approval.","nyc"],
- ["New York City Housing, Rooms, Apartments, Sublets","https://www.facebook.com/groups/nycroom/","No links or videos here.","nyc"],
  ["Weehawken Apartment Rentals","https://www.facebook.com/groups/1053735462041107/",""],
  ["Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","https://www.facebook.com/groups/2900593469996056/","Private: answer every join question."],
  ["Hoboken, NJ Looking Apartment Housing, Room Rentals, Sublease","https://www.facebook.com/groups/1525958571486977/",""],
- ["Jersey City Housing, Rooms, Apartments, Sublets & Roommates","https://www.facebook.com/groups/1714873958744644/",""],
  ["NORTH NEW JERSEY APARTMENTS FOR RENT","https://www.facebook.com/groups/723535098886609/",""],
  ["New Jersey Apartments for rent","https://www.facebook.com/groups/1242008440538800/",""],
  ["Gypsy Housing & Apartments NYC","https://www.facebook.com/groups/296711348386206/","","nyc"],
  ["NYC Rooms for Rent (roommates, rooms, apartments + sublets)","https://www.facebook.com/groups/I9150/","","nyc"],
  ["People of Port Imperial","https://www.facebook.com/groups/204624969954677/","Private neighbors group: answer the join questions."]
 ];
-const WARN={2:"⚠️ This group removed Tyler's post. Skipped by default.",3:"⚠️ This group makes you pay to join. Skipped by default.",4:"⚠️ Tyler was removed from this group after posting. Skipped by default.",8:"⚠️ Only approves posts that include a Cirtru listing link. Skipped by default."};
+const WARN={}; // groups that removed Tyler, charge to post, or need outside links were dropped 11/28
 const $=id=>document.getElementById(id);
 const store=(k,v)=>{try{localStorage.setItem("declan_"+k,JSON.stringify(v))}catch(e){}};
 const load=(k,d)=>{try{const v=localStorage.getItem("declan_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+// 11/28: dropped 4 groups (old positions 2,3,4,8); move saved progress to the new positions
+if(!load("groupsv2",false)){
+  const MAP={0:0,1:1,5:2,6:3,7:4,9:5,10:6,11:7,12:8,13:9};
+  const remapObj=o=>{const r={};if(o&&typeof o==="object")for(const k in o){if(k in MAP)r[MAP[k]]=o[k]}return r};
+  const oldSel=load("sel",null);
+  if(Array.isArray(oldSel)){const ns=Array(10).fill(true);oldSel.forEach((v,i)=>{if(i in MAP)ns[MAP[i]]=v});store("sel",ns)}
+  ["done","stat","msgs"].forEach(k=>{const v=load(k,null);if(v)store(k,remapObj(v))});
+  ["cur","opened"].forEach(k=>{const v=load(k,null);if(v!=null)store(k,(v in MAP)?MAP[v]:(k==="cur"?0:null))});
+  store("groupsv2",true);
+}
 
 /* ---------- best times ---------- */
 const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], FULL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -393,7 +399,6 @@ $("zip").addEventListener("click",async()=>{
 /* ---------- groups ---------- */
 let sel=load("sel",GROUPS.map((g,i)=>!WARN[i])), done=load("done",{}), cur=load("cur",0);
 if(!load("warnv1",false)){for(const k in WARN)sel[k]=false;store("sel",sel);store("warnv1",true)}
-if(!load("warnv2",false)){sel[3]=false;store("sel",sel);store("warnv2",true)}
 function renderList(){
   $("glist").innerHTML=GROUPS.map((g,i)=>'<label><input type="checkbox" data-i="'+i+'"'+(sel[i]?" checked":"")+'><span>'+g[0]+(done[i]?'<span class="tag">Posted</span>':'')+(WARN[i]?'<span class="gn warn">'+WARN[i]+'</span>':'')+(g[2]?'<span class="gn">'+g[2]+'</span>':'')+'</span></label>').join("");
   document.querySelectorAll("#glist input").forEach(c=>c.addEventListener("change",()=>{sel[c.dataset.i]=c.checked;store("sel",sel);renderStep()}));

@@ -228,7 +228,7 @@ const SLOTS=[
  {s:"2026-11-29T10:00:00-05:00",e:"2026-11-29T12:00:00-05:00",label:"Sun Nov 29 · around 10–11 AM",text:"Reminder: take over by Tuesday (Dec 1) and December rent is free 🎁 My brother can do a FaceTime tour anytime."},
  {s:"2026-11-30T19:00:00-05:00",e:"2026-11-30T21:00:00-05:00",label:"Mon Nov 30 · around 7–8 PM (last push)",text:"Last chance for free December: the takeover has to start by tomorrow, Dec 1!"}
 ];
-const SKIP=["Weehawken Apartment Rentals","Hoboken/North Jersey Roommates","Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","Hoboken, NJ Looking Apartment Housing…","NORTH NEW JERSEY APARTMENTS FOR RENT","New Jersey Apartments for rent","Jersey City Rentals, Housing, Apartments ✅","lease take over","NYC Rooms for Rent","Gypsy Housing & Apartments NYC","New York City Housing, Rooms, Apartments, Sublets (nycroom)","Jersey City Housing (Cirtru)","People of Port Imperial (Tyler will post there himself)"];
+const SKIP=["Weehawken Apartment Rentals","Hoboken/North Jersey Roommates","Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","Hoboken, NJ Looking Apartment Housing…","NORTH NEW JERSEY APARTMENTS FOR RENT","New Jersey Apartments for rent","Jersey City Rentals, Housing, Apartments ✅","NYC Rooms for Rent","Gypsy Housing & Apartments NYC","People of Port Imperial (Tyler will post there himself)"];
 
 async function copy(txt,btn,orig){try{await navigator.clipboard.writeText(txt)}catch(e){const t=document.createElement("textarea");t.value=txt;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}btn.textContent="Copied ✓";btn.classList.add("ok");setTimeout(()=>{btn.textContent=orig;btn.classList.remove("ok")},2500)}
 
