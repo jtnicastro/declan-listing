@@ -151,7 +151,7 @@ details ul{margin:8px 0 0;padding-left:20px;font-size:15px;color:var(--muted)}
 
 <section class="card">
 <h2><span class="num">3</span>Join and post in these groups</h2>
-<p class="sub">These are the groups where listings and budgets are closest to Tyler's price (most local NJ groups are mostly rooms under $2,000, so we skipped them). Best time to post: <b>today around 12&ndash;1 PM</b> or <b>tonight around 8&ndash;9 PM</b>.</p>
+<p class="sub">Tyler is posting in NYC Roommates, Sublets &amp; Apartments and NYC Apartments for Rent himself today, so please don't post in those two. These are the next best groups for his price (most local NJ groups are mostly rooms under $2,000). Best time to post: <b>tonight around 8&ndash;9 PM</b>.</p>
 <div id="groups"></div>
 <div class="step">
 <h3>How to post (on your phone)</h3>
@@ -210,13 +210,13 @@ Tours in person or over FaceTime. Comment or message me and I'll connect you wit
 
 const GROUPS=[
  {name:"NYC Sublets & Short-Term Rentals",url:"https://www.facebook.com/groups/ohananewyorkcity/",meta:"122K members · ~45 posts a day",
-  why:"Closest price match: listings here are around $3,000/mo and people looking have budgets around $3,200. Rules: the title must start with the zip code and area (already done below), no links, real people only, don't repost.",
+  why:"Closest price match: listings here are around $3,000/mo and people looking have budgets around $3,200. When you join, it asks for your email and asks you to message their page ('NYC sublets') before you can post. That's their anti-spam step; pick 'Posting a place'. Rules: the title must start with the zip code and area (already done below), no links, real people only, don't repost.",
   title:"07086 Weehawken (Port Imperial): 1BR lease takeover with a Manhattan skyline view, 10 min ferry to Midtown, $3,687/mo effective (December free)"},
- {name:"NYC Roommates, Sublets & Apartments",url:"https://www.facebook.com/groups/362585282654583/",meta:"84K members · ~110 posts a day",
-  why:"Very busy, and about half the recent posts are people looking. Listings average about $2,900/mo. No posting rules.",
-  title:"Lease takeover: 1BR with Manhattan skyline views, 10 min to Midtown by ferry, $3,687/mo effective (December free)"},
- {name:"NYC Apartments for Rent",url:"https://www.facebook.com/groups/1651982041751861/",meta:"287K members · ~100 posts a day",
-  why:"The biggest group. More than half the recent posts are people looking, listings average about $2,900/mo. No posting rules.",
+ {name:"New York City Housing: Rooms, Sublets & Apartments",url:"https://www.facebook.com/groups/notgypsy/",meta:"110K members · ~17 posts a day",
+  why:"Pricier listings than most groups (typical ~$3,200, almost none under $2,000). Their first rule says NYC housing only, so the post leads with the 10-minute ferry to Midtown; if an admin declines it because it's in NJ, that's fine, just skip this one.",
+  title:"Lease takeover: 1BR 10 min from Midtown by ferry, full Manhattan skyline view, $3,687/mo effective (December free)"},
+ {name:"Young Females: New York City Apartments, Sublets, Roommates (optional)",url:"https://www.facebook.com/groups/1207463126375923/",meta:"157K members · private",
+  why:"Very large women-only group. It's private, so we couldn't check prices before joining. Worth a try if you have time.",
   title:"1BR lease takeover with a full Manhattan skyline view, 10 min ferry to Midtown, $3,687/mo effective (December free)"}
 ];
 const LIVE=[
@@ -230,7 +230,7 @@ const SLOTS=[
  {s:"2026-11-29T10:00:00-05:00",e:"2026-11-29T12:00:00-05:00",label:"Sun Nov 29 · around 10–11 AM",text:"This is my brother's apartment! The skyline view is even better in person."},
  {s:"2026-11-30T19:00:00-05:00",e:"2026-11-30T21:00:00-05:00",label:"Mon Nov 30 · around 7–8 PM (last push)",text:"This is my brother's apartment! The skyline view is even better in person."}
 ];
-const SKIP=["Weehawken Apartment Rentals","Hoboken/North Jersey Roommates","Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","Hoboken, NJ Looking Apartment Housing…","NORTH NEW JERSEY APARTMENTS FOR RENT","New Jersey Apartments for rent","Jersey City Rentals, Housing, Apartments ✅","NYC Rooms for Rent","Gypsy Housing & Apartments NYC","People of Port Imperial (Tyler will post there himself)"];
+const SKIP=["Weehawken Apartment Rentals","Hoboken/North Jersey Roommates","Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","Hoboken, NJ Looking Apartment Housing…","NORTH NEW JERSEY APARTMENTS FOR RENT","New Jersey Apartments for rent","Jersey City Rentals, Housing, Apartments ✅","NYC Rooms for Rent","Gypsy Housing & Apartments NYC","NYC Roommates, Sublets & Apartments (Tyler posted 11/28)","NYC Apartments for Rent (Tyler posted 11/28)","People of Port Imperial (Tyler will post there himself)"];
 
 async function copy(txt,btn,orig){try{await navigator.clipboard.writeText(txt)}catch(e){const t=document.createElement("textarea");t.value=txt;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}btn.textContent="Copied ✓";btn.classList.add("ok");setTimeout(()=>{btn.textContent=orig;btn.classList.remove("ok")},2500)}
 
