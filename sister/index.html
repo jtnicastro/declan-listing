@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b66d2">
+<title>Help post the apartment</title>
+<link rel="apple-touch-icon" href="../icon-180.png">
+<style>
+:root{--ink:#1f2328;--muted:#5b6270;--line:#e3e5e8;--bg:#f4f5f7;--card:#fff;--blue:#1b66d2;--blue-bg:#e8f0fc;--green:#1a7f45;--green-bg:#e3f4ea;--amber-bg:#fff4d9;--amber:#6f4b00;--h1:#c7dbf8;--h2:#7fb0f0;--h3:#1b66d2}
+@media (prefers-color-scheme: dark){:root{--ink:#eceef1;--muted:#a5acb8;--line:#30343a;--bg:#121417;--card:#1d2024;--blue:#6ea3f5;--blue-bg:#1b2a42;--green:#5ccf8c;--green-bg:#16301f;--amber-bg:#3a2e12;--amber:#f2c76a;--h1:#1f3554;--h2:#2f5d9c;--h3:#6ea3f5}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+main{max-width:640px;margin:0 auto;padding:0 16px 60px}
+@media(min-width:640px){main{padding-top:16px}}
+h1{font-size:28px;line-height:1.2;margin:6px 0 6px}
+h2{font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-size:18px;flex:none}
+.sub{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:0 0 18px}
+label{display:block;font-weight:600;margin:12px 0 4px;font-size:16px}
+input[type=text]{width:100%;font-size:18px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+textarea{width:100%;min-height:440px;font-size:16px;line-height:1.5;font-family:inherit;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+button,.btn{display:block;width:100%;font:inherit;font-size:20px;font-weight:700;padding:16px;border:0;border-radius:14px;background:var(--blue);color:#fff;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+button:active,.btn:active{transform:scale(.99)}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-size:17px;font-weight:600;padding:13px}
+.ok{background:var(--green)!important;color:#fff!important}
+.note{background:var(--amber-bg);color:var(--amber);border-radius:12px;padding:10px 12px;font-size:15px;margin:10px 0 0}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.photos a{position:relative;display:block}
+.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block;background:var(--line)}
+.photos .ph{display:flex;flex-direction:column;gap:5px;min-width:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{flex:1;margin:0;padding:7px 0;font-size:13px;font-weight:600;border-radius:0;background:var(--card);color:var(--muted)}
+.seg button.on{background:var(--blue);color:#fff}
+.update{border:2px solid #e3a008;background:var(--amber-bg)}
+.update h2{color:var(--amber)}
+.photos span{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 7px}
+.small{font-size:14px;color:var(--muted)}
+.glist label{display:flex;gap:12px;align-items:flex-start;font-weight:500;font-size:17px;margin:0;padding:12px 4px;border-bottom:1px solid var(--line)}
+.glist label:last-child{border-bottom:0}
+.glist input{width:24px;height:24px;flex:none;margin-top:2px;accent-color:var(--blue)}
+.glist .gn{display:block;font-size:13px;color:var(--muted);font-weight:400}
+.glist .gn.warn{color:#c0392b;font-weight:600}
+@media (prefers-color-scheme: dark){.glist .gn.warn{color:#ff8a7a}}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:var(--green);background:var(--green-bg);border-radius:8px;padding:1px 7px;margin-left:6px}
+.step{border:2px solid var(--blue);border-radius:16px;padding:16px;margin-top:12px}
+.step h3{margin:0 0 4px;font-size:20px}
+.prog{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 12px}
+.prog div{height:100%;background:var(--green);width:0}
+ol.how{padding-left:22px;margin:8px 0 0}
+ol.how li{margin:0 0 6px}
+.today{background:var(--blue-bg);border-radius:14px;padding:14px;margin-bottom:12px}
+.today b{font-size:20px}
+.heat{width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;table-layout:fixed}
+.heat th{font-weight:600;color:var(--muted);padding:0}
+.heat td{height:26px;border-radius:4px;background:var(--line);text-align:center}
+.heat td.s1{background:var(--h1)}.heat td.s2{background:var(--h2)}.heat td.s3{background:var(--h3)}
+.heat tr.isToday th{color:var(--blue)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
+ul.tips{margin:6px 0 0;padding-left:20px}ul.tips li{margin:0 0 6px}
+.hero-banner{margin:0 -16px 16px;padding:0;min-height:230px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.65)),url(photos/banner.jpg?v=20261123b) center 12%/cover;display:flex;align-items:flex-end;color:#fff}
+@media(min-width:640px){.hero-banner{margin:0 0 16px;border-radius:18px;overflow:hidden}}
+.hero-banner>div{padding:18px}.hero-banner p{margin:0;font-size:15px;opacity:.95}.hero-banner h1{color:#fff;margin:4px 0 6px}
+.reply{border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 10px}
+.reply b{display:block;margin-bottom:4px}.reply p{margin:0 0 8px;font-size:16px;white-space:pre-wrap}
+.reply button{margin-top:0;font-size:16px;padding:10px}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}
+.confetti span{position:absolute;top:-30px;font-size:26px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+
+.start{border:2px solid var(--blue)}
+details.more{margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+details.more summary{font-weight:600;cursor:pointer;font-size:17px}
+details.more p{margin:8px 0 0}
+#help details.more{margin-top:8px}
+.row2{display:flex;gap:8px}.row2 button{margin-top:0;margin-bottom:6px}
+ol.how.big li{font-size:18px;margin-bottom:8px}
+.fbstep{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;font-size:18px}
+.fbstep .k{flex:none;width:30px;height:30px;border-radius:50%;background:var(--blue-bg);color:var(--blue);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px}
+.hero{width:64px;height:64px;object-fit:cover;border-radius:8px;vertical-align:middle;margin:4px 0}
+.fb{background:#fff;color:#050505;border-radius:12px;border:1px solid #dddfe2;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;margin-top:10px}
+@media (prefers-color-scheme: dark){.fb{background:#242526;color:#e4e6eb;border-color:#3e4042}.fb .fbm{color:#b0b3b8!important}}
+.fbh{display:flex;gap:10px;align-items:center;padding:12px 12px 4px}
+.fba{width:40px;height:40px;border-radius:50%;background:#1b66d2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.fbt{padding:4px 12px 10px;font-size:15px;line-height:1.34;white-space:pre-wrap;word-wrap:break-word}
+.fbt .more{font-weight:600;cursor:pointer}
+.fbg{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.fbg div{position:relative;background:#ccc center/cover no-repeat}
+.fbg .t{grid-column:span 3;aspect-ratio:1}.fbg .b{grid-column:span 2;aspect-ratio:1}
+.fbg .plus{position:absolute;inset:0;background:rgba(0,0,0,.45);color:#fff;font-size:30px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.fbf{display:flex;justify-content:space-around;padding:8px;border-top:1px solid rgba(128,128,128,.25);font-size:14px;font-weight:600;color:#65676b}
+select{width:100%;font-size:17px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+.trow{border-bottom:1px solid var(--line);padding:12px 0}.trow:last-child{border-bottom:0}
+.trow .tn{font-weight:600;font-size:16px}
+.tctl{display:flex;gap:8px;align-items:center;margin-top:8px}
+.tctl select{flex:1;font-size:15px;padding:8px}
+.cnt{display:flex;align-items:center;gap:6px;flex:none}
+.cnt button{width:40px;height:40px;padding:0;margin:0;font-size:22px;border-radius:10px}
+.cnt b{min-width:24px;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.stats div{background:var(--blue-bg);border-radius:12px;padding:10px;text-align:center}
+.stats b{display:block;font-size:24px}
+
+.gcard{border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.gcard h3{margin:0 0 4px;font-size:19px}
+.gcard .meta{font-size:14px;color:var(--muted);margin:0 0 6px}
+.gcard .why{font-size:15px;margin:0 0 8px}
+.row{display:flex;gap:8px}
+.row .btn,.row button{flex:1;font-size:16px;padding:12px;margin-top:8px}
+.chk{display:flex;gap:10px;align-items:center;font-size:16px;font-weight:600;margin:8px 0 0}
+.chk input{width:22px;height:22px;accent-color:var(--green)}
+pre.post{white-space:pre-wrap;font:15px/1.45 inherit;font-family:inherit;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;max-height:260px;overflow:auto;margin:8px 0 0}
+.slot{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:16px}
+.slot.now{border:2px solid var(--green);background:var(--green-bg)}
+.slot.past{opacity:.55}
+.slot b{display:block}
+.bad{background:#fde8e6;color:#8a1c12;border-radius:12px;padding:12px;font-weight:600;margin:0 0 14px}
+@media (prefers-color-scheme: dark){.bad{background:#3d1a16;color:#ffb3a8}}
+details summary{cursor:pointer;font-weight:600;font-size:16px}
+details ul{margin:8px 0 0;padding-left:20px;font-size:15px;color:var(--muted)}
+.lp{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0}
+.lp b{font-size:17px}
+</style>
+</head>
+<body>
+<main>
+<h1>Help post Tyler's apartment</h1>
+<p class="sub">Thank you! This page has everything: which groups to join, the post to paste, the photos, and Tyler's posts to comment on.</p>
+<div id="expired" class="bad" hidden>The "December free" deal ended on Dec 1. Ask Tyler for the new price before posting anything.</div>
+
+<section class="card">
+<h2><span class="num">1</span>Before you start</h2>
+<ol class="how">
+<li>Make sure your Facebook account has a <b>profile photo</b>. Some groups automatically reject posts from accounts without one.</li>
+<li>When a group asks questions to join, just be honest: <i>"I'm helping my brother find someone to take over his apartment lease in Weehawken."</i></li>
+<li>Don't post in groups where Tyler or his co-tenant already posted (list at the bottom). Two copies of the same apartment looks like a scam.</li>
+</ol>
+</section>
+
+<section class="card">
+<h2><span class="num">2</span>Save the photos</h2>
+<p class="sub">15 full-size photos. The living room photo should be first in every post.</p>
+<button id="saveAll">Save all 15 photos to my phone</button>
+<button id="zip" class="ghost">Download all as a .zip (computer)</button>
+<p id="saveNote" class="note" hidden></p>
+<div class="photos" id="photos" style="margin-top:12px"></div>
+</section>
+
+<section class="card">
+<h2><span class="num">3</span>Join and post in these groups</h2>
+<p class="sub">These are the groups where listings and budgets are closest to Tyler's price (most local NJ groups are mostly rooms under $2,000, so we skipped them). Best time to post: <b>today around 12&ndash;1 PM</b> or <b>tonight around 8&ndash;9 PM</b>.</p>
+<div id="groups"></div>
+<div class="step">
+<h3>How to post (on your phone)</h3>
+<ol class="how">
+<li>Tap <b>Copy post</b> for that group (above).</li>
+<li>Tap <b>Open group</b>, then <b>Join</b> (answer the questions if it asks). Some groups take a few hours to approve you.</li>
+<li>Once you're in, tap <b>Write something&hellip;</b>, press and hold, and tap <b>Paste</b>.</li>
+<li>Tap the green <b>Photo</b> button, pick the living room photo first, then all the others.</li>
+<li>Tap <b>Post</b>, then tick <b>Posted</b> here.</li>
+</ol>
+</div>
+</section>
+
+<section class="card">
+<h2><span class="num">4</span>Comment on Tyler's live posts</h2>
+<p class="sub">A new comment pushes a post back up in the group. One comment per post at each time below is plenty. Never just write "bump", and don't pretend to be someone interested.</p>
+<div id="slots"></div>
+<div id="livePosts"></div>
+</section>
+
+<section class="card">
+<h2><span class="num">5</span>When someone messages you</h2>
+<p>Reply quickly and connect them with Tyler (send him their name, or share his Facebook profile with them). Don't share the apartment number or anyone's phone number in the group.</p>
+<details style="margin-top:10px"><summary>Groups to skip (Tyler or his co-tenant already posted there)</summary>
+<ul id="skipList"></ul></details>
+</section>
+<p class="small" style="text-align:center">Questions? Text Tyler.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const N=15, PH=i=>"declan-"+String(i).padStart(2,"0")+".jpg", PV="?v=20261123b";
+const FULL=i=>"../photos/full/"+PH(i)+PV, THUMB=i=>"../photos/thumb/"+PH(i)+PV;
+const load=(k,d)=>{try{const v=JSON.parse(localStorage.getItem("sis_"+k));return v==null?d:v}catch(e){return d}};
+const store=(k,v)=>{try{localStorage.setItem("sis_"+k,JSON.stringify(v))}catch(e){}};
+const DEADLINE=new Date("2026-12-02T00:00:00-05:00");
+const expired=new Date()>=DEADLINE; if(expired)$("expired").hidden=false;
+
+const BODY=`Hi! Posting for my brother: he's looking for someone to take over his 1-bedroom lease at The Declan in Weehawken, NJ, starting Dec 1.
+
+🎁 DECEMBER IS FREE: take over by Dec 1 and he'll pay your December rent ($4,258). That brings your rent down to about $3,687/mo for the rest of the lease.
+
+It's a 7th-floor 1BR/1BA in a waterfront building that opened in 2025 (5 Port Imperial Blvd), with a full wall of floor-to-ceiling windows looking straight across the Hudson at Hudson Yards and the Midtown skyline. The bedroom has the same view.
+
+📍 Port Imperial waterfront, Weehawken NJ
+⛴️ NY Waterway ferry to Midtown in about 10 min · light rail about 8 min walk · buses to Port Authority
+📆 Available Dec 1. Lease ends July 14, 2027 (about 7.5 months, no 12-month commitment)
+💵 $3,687/mo net effective ($4,258/mo lease rent, December covered) + utilities · no broker fee
+🏠 692 sq ft · 9-ft ceilings · in-unit washer/dryer · walk-in closet with custom shelving · quartz island with bar seating · GE stainless appliances incl. gas range and dishwasher
+🛋️ Some furniture can stay for free
+🏢 Pool and spa with Manhattan views, gym, roof deck, media room, courtyard with grills and an outdoor fireplace · pet-friendly · garage parking in the building (separate monthly fee)
+✅ Simple process: apply through the building, get approved, move in
+
+Tours in person or over FaceTime. Comment or message me and I'll connect you with my brother right away!`;
+
+const GROUPS=[
+ {name:"NYC Sublets & Short-Term Rentals",url:"https://www.facebook.com/groups/ohananewyorkcity/",meta:"122K members · ~45 posts a day",
+  why:"Closest price match: listings here are around $3,000/mo and people looking have budgets around $3,200. Rules: the title must start with the zip code and area (already done below), no links, real people only, don't repost.",
+  title:"07086 Weehawken (Port Imperial): 1BR lease takeover with a Manhattan skyline view, 10 min ferry to Midtown, $3,687/mo effective (December free)"},
+ {name:"NYC Roommates, Sublets & Apartments",url:"https://www.facebook.com/groups/362585282654583/",meta:"84K members · ~110 posts a day",
+  why:"Very busy, and about half the recent posts are people looking. Listings average about $2,900/mo. No posting rules.",
+  title:"Lease takeover: 1BR with Manhattan skyline views, 10 min to Midtown by ferry, $3,687/mo effective (December free)"},
+ {name:"NYC Apartments for Rent",url:"https://www.facebook.com/groups/1651982041751861/",meta:"287K members · ~100 posts a day",
+  why:"The biggest group. More than half the recent posts are people looking, listings average about $2,900/mo. No posting rules.",
+  title:"1BR lease takeover with a full Manhattan skyline view, 10 min ferry to Midtown, $3,687/mo effective (December free)"}
+];
+const LIVE=[
+ {name:"Hoboken/North Jersey Roommates",url:"https://www.facebook.com/groups/2574863592810004/posts/4072595096370172/"},
+ {name:"Hoboken Housing",url:"https://www.facebook.com/groups/2900593469996056/posts/29077014511927261/"},
+ {name:"Gypsy Housing & Apartments NYC",url:"https://www.facebook.com/groups/296711348386206/posts/2172859940771328/"}
+];
+const SLOTS=[
+ {s:"2026-11-28T12:00:00-05:00",e:"2026-11-28T14:00:00-05:00",label:"Sat Nov 28 · around 12–1 PM",text:"This is my brother's apartment! The skyline view is even better in person 🌆 December is free if someone takes over by Dec 1."},
+ {s:"2026-11-28T20:00:00-05:00",e:"2026-11-28T22:00:00-05:00",label:"Sat Nov 28 · around 8–9 PM",text:"Still available! Tag anyone you know who's moving to NYC or NJ. The ferry gets you to Midtown in about 10 minutes."},
+ {s:"2026-11-29T10:00:00-05:00",e:"2026-11-29T12:00:00-05:00",label:"Sun Nov 29 · around 10–11 AM",text:"Reminder: take over by Tuesday (Dec 1) and December rent is free 🎁 My brother can do a FaceTime tour anytime."},
+ {s:"2026-11-30T19:00:00-05:00",e:"2026-11-30T21:00:00-05:00",label:"Mon Nov 30 · around 7–8 PM (last push)",text:"Last chance for free December: the takeover has to start by tomorrow, Dec 1!"}
+];
+const SKIP=["Weehawken Apartment Rentals","Hoboken/North Jersey Roommates","Hoboken Housing: Rentals, Sublets, and Lease-Takeovers","Hoboken, NJ Looking Apartment Housing…","NORTH NEW JERSEY APARTMENTS FOR RENT","New Jersey Apartments for rent","Jersey City Rentals, Housing, Apartments ✅","lease take over","NYC Rooms for Rent","Gypsy Housing & Apartments NYC","New York City Housing, Rooms, Apartments, Sublets (nycroom)","Jersey City Housing (Cirtru)","People of Port Imperial (Tyler will post there himself)"];
+
+async function copy(txt,btn,orig){try{await navigator.clipboard.writeText(txt)}catch(e){const t=document.createElement("textarea");t.value=txt;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}btn.textContent="Copied ✓";btn.classList.add("ok");setTimeout(()=>{btn.textContent=orig;btn.classList.remove("ok")},2500)}
+
+/* photos */
+$("photos").innerHTML=Array.from({length:N},(_,k)=>'<a href="'+FULL(k+1)+'" target="_blank" rel="noopener"><img src="'+THUMB(k+1)+'" alt="Apartment photo '+(k+1)+'" loading="lazy"><span>'+(k+1)+'</span></a>').join("");
+$("saveAll").addEventListener("click",async()=>{
+  const b=$("saveAll"),n=$("saveNote");n.hidden=true;b.disabled=true;
+  try{const files=[];for(let i=1;i<=N;i++){b.textContent="Getting photos ready… "+i+" of "+N;const r=await fetch(FULL(i));files.push(new File([await r.blob()],PH(i),{type:"image/jpeg"}))}
+    if(navigator.canShare&&navigator.canShare({files})){b.textContent='Tap "Save 15 Images"';await navigator.share({files});b.textContent="Saved ✓";b.classList.add("ok")}
+    else{n.textContent="This phone can't save them all at once. Use the .zip button, or tap each photo and press and hold to save it.";n.hidden=false;b.textContent="Save all 15 photos to my phone"}
+  }catch(e){b.textContent="Save all 15 photos to my phone";if(e&&e.name!=="AbortError"){n.textContent="That didn't work. Try the .zip button, or tap each photo and press and hold to save it.";n.hidden=false}}
+  b.disabled=false});
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(u){let c=0xFFFFFFFF;for(let i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0}
+function makeZip(files){
+  const parts=[],cen=[],enc=new TextEncoder();let off=0;
+  for(const f of files){
+    const nm=enc.encode(f.name),crc=crc32(f.data),sz=f.data.length;
+    const h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(12,0x21,true);h.setUint32(14,crc,true);h.setUint32(18,sz,true);h.setUint32(22,sz,true);h.setUint16(26,nm.length,true);
+    parts.push(h,nm,f.data);
+    const c=new DataView(new ArrayBuffer(46));
+    c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(14,0x21,true);c.setUint32(16,crc,true);c.setUint32(20,sz,true);c.setUint32(24,sz,true);c.setUint16(28,nm.length,true);c.setUint32(42,off,true);
+    cen.push(c,nm);off+=30+nm.length+sz;
+  }
+  let cs=0;cen.forEach(x=>cs+=x.byteLength);
+  const e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+  return new Blob([...parts,...cen,e],{type:"application/zip"});
+}
+$("zip").addEventListener("click",async()=>{const b=$("zip");b.disabled=true;
+  try{const files=[];for(let i=1;i<=N;i++){b.textContent="Getting photos ready… "+i+" of "+N;const r=await fetch(FULL(i));files.push({name:PH(i),data:new Uint8Array(await r.arrayBuffer())})}
+    const url=URL.createObjectURL(makeZip(files));const a=document.createElement("a");a.href=url;a.download="declan-photos.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);b.textContent="Downloaded ✓";b.classList.add("ok")}
+  catch(e){b.textContent="That didn't work. Tap each photo instead."}
+  b.disabled=false});
+
+/* groups */
+const posted=load("posted",{});
+$("groups").innerHTML=GROUPS.map((g,i)=>{const full=g.title+"\n\n"+BODY;
+  return '<div class="gcard"><h3>'+(i+1)+'. '+g.name+'</h3><p class="meta">'+g.meta+'</p><p class="why">'+g.why+'</p>'+
+  '<details><summary>Preview the post</summary><pre class="post">'+full.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</pre></details>'+
+  '<div class="row"><button data-copy="'+i+'">Copy post</button><a class="btn ghost" href="'+g.url+'" target="_blank" rel="noopener">Open group</a></div>'+
+  '<label class="chk"><input type="checkbox" data-posted="'+i+'"'+(posted[i]?" checked":"")+'> Posted</label></div>'}).join("");
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{const g=GROUPS[b.dataset.copy];copy(g.title+"\n\n"+BODY,b,"Copy post")}));
+document.querySelectorAll("[data-posted]").forEach(c=>c.addEventListener("change",()=>{posted[c.dataset.posted]=c.checked;store("posted",posted)}));
+
+/* comments */
+const cdone=load("cdone",{});
+function renderSlots(){const now=new Date();let nextSet=false;
+  $("slots").innerHTML=SLOTS.map((s,i)=>{const st=new Date(s.s),en=new Date(s.e);let cls="",tag="";
+    if(now>=en){cls="past";tag=" (passed)"}else if(now>=st){cls="now";tag=" ← now"}else if(!nextSet){cls="now";tag=" ← next";nextSet=true}
+    if(now>=st&&now<en)nextSet=true;
+    return '<div class="slot '+cls+'"><b>'+s.label+tag+'</b>Suggested comment: <i>"'+s.text+'"</i><div class="row"><button data-ctext="'+i+'" class="ghost">Copy this comment</button></div></div>'}).join("");
+  document.querySelectorAll("[data-ctext]").forEach(b=>b.addEventListener("click",()=>copy(SLOTS[b.dataset.ctext].text,b,"Copy this comment")));
+}
+function renderLive(){
+  $("livePosts").innerHTML='<p style="margin:14px 0 4px;font-weight:700">Tyler\'s live posts</p>'+LIVE.map((p,i)=>{
+    const ticks=SLOTS.map((s,j)=>'<label class="chk" style="font-weight:500;font-size:14px;margin:4px 0 0"><input type="checkbox" data-c="'+i+'_'+j+'"'+(cdone[i+"_"+j]?" checked":"")+'> '+s.label.split(" · ")[0]+' '+s.label.split(" · ")[1].split(" (")[0]+'</label>').join("");
+    return '<div class="lp"><b>'+p.name+'</b><a class="btn" href="'+p.url+'" target="_blank" rel="noopener" style="font-size:16px;padding:12px">Open post to comment</a><details style="margin-top:8px"><summary>Commented at&hellip;</summary>'+ticks+'</details></div>'}).join("");
+  document.querySelectorAll("[data-c]").forEach(c=>c.addEventListener("change",()=>{cdone[c.dataset.c]=c.checked;store("cdone",cdone)}));
+}
+renderSlots();renderLive();setInterval(renderSlots,60000);
+$("skipList").innerHTML=SKIP.map(s=>"<li>"+s+"</li>").join("");
+</script>
+</body>
+</html>
